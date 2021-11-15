@@ -1,3 +1,33 @@
-.external {
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 750px;
+}
+.container *{
     display: block;
+    margin: 10px;
+}
+.WelcomeHeader{
+    font-size: 40px;
+    font-weight: bold;
+}
+.WelcomeDescription{
+    font-size: 25px;
+    font-weight: medium;
+}
+.SubmitButton{
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+.SubmitButton button{
+    padding: 5px;
+    border-radius: 15px;
+    border-color: none;
+    background: none;
+}
+.SubmitButton button:hover{
+    border-color: green;
+    background: green;
 }
