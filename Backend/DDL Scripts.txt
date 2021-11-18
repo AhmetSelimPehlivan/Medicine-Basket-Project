@@ -1,0 +1,436 @@
+CREATE TABLE IF NOT EXISTS public.depocalisani
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    maas integer NOT NULL,
+    telefon integer NOT NULL,
+    parola character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    depo_id integer NOT NULL,
+    CONSTRAINT depocalisani_pkey PRIMARY KEY (tcno),
+    CONSTRAINT depocalisani_depo_id_fkey FOREIGN KEY (depo_id)
+        REFERENCES public.ilacdeposu (depo_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.depocalisani
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.depoilacbulunur
+(
+    depo_id integer NOT NULL,
+    ilackodu integer NOT NULL,
+    CONSTRAINT depoilacbulunur_pkey PRIMARY KEY (depo_id, ilackodu),
+    CONSTRAINT depoilacbulunur_depo_id_fkey FOREIGN KEY (depo_id)
+        REFERENCES public.ilacdeposu (depo_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT depoilacbulunur_ilackodu_fkey FOREIGN KEY (ilackodu)
+        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.depoilacbulunur
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.depomudur
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    maas integer NOT NULL,
+    telefon integer NOT NULL,
+    adminparola character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    depo_id integer NOT NULL,
+    CONSTRAINT depomudur_pkey PRIMARY KEY (tcno),
+    CONSTRAINT depomudur_depo_id_fkey FOREIGN KEY (depo_id)
+        REFERENCES public.ilacdeposu (depo_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.depomudur
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.depopersonel
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    maas integer NOT NULL,
+    telefon integer NOT NULL,
+    parola character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    depo_id integer NOT NULL,
+    CONSTRAINT depopersonel_pkey PRIMARY KEY (tcno),
+    CONSTRAINT depopersonel_depo_id_fkey FOREIGN KEY (depo_id)
+        REFERENCES public.ilacdeposu (depo_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.depopersonel
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public."eczacı"
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    maas integer NOT NULL,
+    telefon integer NOT NULL,
+    diplomatarihi time without time zone NOT NULL,
+    adminparola character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    eczane_id integer NOT NULL,
+    CONSTRAINT "eczacı_pkey" PRIMARY KEY (tcno),
+    CONSTRAINT "eczacı_eczane_id_fkey" FOREIGN KEY (eczane_id)
+        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."eczacı"
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.eczane
+(
+    eczane_id integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    adres text COLLATE pg_catalog."default" NOT NULL,
+    calismasaati time without time zone NOT NULL,
+    sehir character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    parola character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    gelenilacid character varying(25) COLLATE pg_catalog."default",
+    CONSTRAINT eczane_pkey PRIMARY KEY (eczane_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eczane
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.eczanecalisani
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    telefon integer NOT NULL,
+    eczane_id integer NOT NULL,
+    parola character varying(25) COLLATE pg_catalog."default",
+    CONSTRAINT eczanecalisani_pkey PRIMARY KEY (tcno),
+    CONSTRAINT eczanecalisani_eczane_id_fkey FOREIGN KEY (eczane_id)
+        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eczanecalisani
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.eczaneilacbulunur
+(
+    eczane_id integer NOT NULL,
+    ilackodu character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT eczaneilacbulunur_pkey PRIMARY KEY (eczane_id, ilackodu)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eczaneilacbulunur
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.eczaneilacsaglar
+(
+    eczane_id integer NOT NULL,
+    kullanicitc integer NOT NULL,
+    kuryetcno integer NOT NULL,
+    saat time without time zone NOT NULL,
+    gun date NOT NULL,
+    CONSTRAINT eczaneilacsaglar_pkey PRIMARY KEY (eczane_id, kullanicitc, kuryetcno),
+    CONSTRAINT eczaneilacsaglar_eczane_id_fkey FOREIGN KEY (eczane_id)
+        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT eczaneilacsaglar_kullanicitc_fkey FOREIGN KEY (kullanicitc)
+        REFERENCES public.kullanici (tcno) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT eczaneilacsaglar_kuryetcno_fkey FOREIGN KEY (kuryetcno)
+        REFERENCES public.kurye (tcno) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eczaneilacsaglar
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.eczanekalfa
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    maas integer NOT NULL,
+    telefon integer NOT NULL,
+    parola character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    eczane_id integer NOT NULL,
+    CONSTRAINT eczanekalfa_pkey PRIMARY KEY (tcno),
+    CONSTRAINT eczanekalfa_eczane_id_fkey FOREIGN KEY (eczane_id)
+        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eczanekalfa
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.eczanesahibi
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    telefon integer NOT NULL,
+    adminparola character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    eczane_id integer NOT NULL,
+    CONSTRAINT eczanesahibi_pkey PRIMARY KEY (tcno),
+    CONSTRAINT eczanesahibi_eczane_id_fkey FOREIGN KEY (eczane_id)
+        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eczanesahibi
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.eczanestajyer
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    maas integer,
+    telefon integer NOT NULL,
+    okul character varying(50) COLLATE pg_catalog."default",
+    parola character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    eczane_id integer NOT NULL,
+    CONSTRAINT eczanestajyer_pkey PRIMARY KEY (tcno),
+    CONSTRAINT eczanestajyer_eczane_id_fkey FOREIGN KEY (eczane_id)
+        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eczanestajyer
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.enabizverileri
+(
+    tcno integer NOT NULL,
+    receteno integer NOT NULL,
+    ilacadi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT enabizverileri_pkey PRIMARY KEY (receteno, tcno),
+    CONSTRAINT enabizverileri_receteno_key UNIQUE (receteno)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.enabizverileri
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.ilac
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    CONSTRAINT ilac_pkey PRIMARY KEY (ilackodu)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.ilac
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.ilacdeposu
+(
+    depo_id integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    sehir character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    adres character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    calismasaati time without time zone NOT NULL,
+    CONSTRAINT ilacdeposu_pkey PRIMARY KEY (depo_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.ilacdeposu
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.kirmizireceteliilaclar
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    CONSTRAINT kirmizireceteliilaclar_pkey PRIMARY KEY (ilackodu)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.kirmizireceteliilaclar
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.kremler
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    CONSTRAINT kremler_pkey PRIMARY KEY (ilackodu),
+    CONSTRAINT kremler_ilackodu_fkey FOREIGN KEY (ilackodu)
+        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.kremler
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.kullanici
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    telefon character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    sifre "char",
+    sehir character varying(50) COLLATE pg_catalog."default",
+    adres character varying(50) COLLATE pg_catalog."default",
+    email character varying(75) COLLATE pg_catalog."default",
+    CONSTRAINT kullanici_pkey PRIMARY KEY (tcno)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.kullanici
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.kurye
+(
+    tcno integer NOT NULL,
+    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    telefon character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    maas integer NOT NULL,
+    email character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    eczane_id integer NOT NULL,
+    CONSTRAINT kurye_pkey PRIMARY KEY (tcno),
+    CONSTRAINT kurye_eczane_id_fkey FOREIGN KEY (eczane_id)
+        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.kurye
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.mavireceteliilaclar
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    CONSTRAINT mavireceteliilaclar_pkey PRIMARY KEY (ilackodu)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.mavireceteliilaclar
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public."ozelbakımurunleri"
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    CONSTRAINT "ozelbakımurunleri_pkey" PRIMARY KEY (ilackodu),
+    CONSTRAINT "ozelbakımurunleri_ilackodu_fkey" FOREIGN KEY (ilackodu)
+        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public."ozelbakımurunleri"
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.receteliilaclar
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    tur character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT receteliilaclar_pkey PRIMARY KEY (ilackodu),
+    CONSTRAINT receteliilaclar_ilackodu_fkey FOREIGN KEY (ilackodu)
+        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.receteliilaclar
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.sgkverileri
+(
+    tcno integer NOT NULL,
+    sgkno integer NOT NULL,
+    CONSTRAINT sgkverileri_pkey PRIMARY KEY (sgkno, tcno),
+    CONSTRAINT sgkverileri_sgkno_key UNIQUE (sgkno)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.sgkverileri
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.vitaminler
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    CONSTRAINT vitaminler_pkey PRIMARY KEY (ilackodu),
+    CONSTRAINT vitaminler_ilackodu_fkey FOREIGN KEY (ilackodu)
+        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.vitaminler
+    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.yesilreceteliilaclar
+(
+    ilackodu integer NOT NULL,
+    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    fiyat integer NOT NULL,
+    CONSTRAINT yesilreceteliilaclar_pkey PRIMARY KEY (ilackodu)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.yesilreceteliilaclar
+    OWNER to postgres;
