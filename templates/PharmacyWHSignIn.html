@@ -1,44 +1,28 @@
-<html>
-  <head>
-	<title>Ilac Sepeti</title>
-	<link rel="stylesheet" type="text/css" href="../UI/CsWelcomePage.css">
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
-  </head><!DOCTYPE html>
-<html>
-<head>
-	<title>Ilac Sepeti</title>
-	<link rel="stylesheet" type="text/css" href="../UI/CsWelcomePage.css">
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container"> 
-        <div class="header">
-            <h1 class="headerName">İLAÇ SEPETİ'NE HOŞGELDİNİZ</h1>
-            <h3 class="signHeader"></h3>
-        </div>
-        <div class="main">  	
-            <input type="checkbox" id="chk" aria-hidden="true">
-                <div class="signup">
-                    <form>
-                        <label for="chk" aria-hidden="true">Üye Ol</label>
-                        <input type="text" name="txt" placeholder="İsim Soyisim" required="">
-                        <input type="number" name="tc" placeholder="TC No" required="">
-                        <input type="number" name="phone" placeholder="Telefon Numarası" required="">
-                        <input type="email" name="email" placeholder="Email" required="">
-                        <input type="password" name="pswd" placeholder="Şifre" required="">
-                        <button>Üye Ol</button>
-                    </form>
-                </div>
-
-                <div class="login">
-                    <form>
-                        <label for="chk" aria-hidden="true">Giriş Yap</label>
-                        <input type="number" name="tc" placeholder="TC No" required="">
-                        <input type="password" name="pswd" placeholder="Şifre" required="">
-                        <button>Giriş Yap</button>
-                    </form>
-                </div>
-        </div>
+{% extends 'WelcomePage.html' %}
+{% block css %}
+    <style>
+        body{
+        	background: linear-gradient(to bottom, #257300, #319A00, #34A100);
+        }
+        button{
+            background: #FFFFFF;
+            color: #2C8800;
+        }
+        button:hover{
+            background: #2C8800;
+            color: #FFFFFF;
+        }
+        .login label{
+            color: #2C8800;
+            transform: scale(.6);
+        }
+        
+    </style>
+{% endblock %}
+{% block headerName %}
+    <h3 class="signHeader">İlaç Deposu Giriş</h3>
+    <div class="checkbox">
+        <input class="AdminCheckBox" type="checkbox" name="switch" id="switch">
+        <label class="AdminCheckBoxLabel" for="switch"></label>
     </div>
-</body>
-</html>
+{% endblock %}

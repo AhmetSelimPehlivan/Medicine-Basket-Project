@@ -9,13 +9,36 @@ body{
 	background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
 .main{
-	width: 400px;
-	height: 520px;
-	background: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main div{
+	width: 350px;
+	height: 200px;
 	overflow: hidden;
 	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
 	border-radius: 10px;
 	box-shadow: 5px 20px 50px #000;
+    color: #fff;
+	display: flex;
+	justify-content: center;
+    align-items: center;
+	margin: 50px;
+	font-size: 2.3em;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+.main div a{
+	 text-decoration: none;
+	 color: #fff;
+}
+.main div a:hover{
+    color: #573b8a;
+}
+.main div:hover{
+    background-color: #fff;
 }
 .container{
     display: flex;
@@ -37,24 +60,6 @@ body{
 .status{
     margin: 5px;
     font-weight: medium;
-}
-#chk{
-	display: none;
-}
-.signup{
-	position: relative;
-	width:100%;
-	height: 100%;
-}
-label{
-	color: #fff;
-	font-size: 2.3em;
-	justify-content: center;
-	display: flex;
-	margin: 50px;
-	font-weight: bold;
-	cursor: pointer;
-	transition: .5s ease-in-out;
 }
 input{
 	width: 60%;
@@ -88,65 +93,4 @@ button{
 button:hover{
 	background: #6d44b8;
 }
-.login{
-	height: 460px;
-	background: #eee;
-	border-radius: 60% / 10%;
-	transform: translateY(-180px);
-	transition: .8s ease-in-out;
-}
-.login label{
-	color: #573b8a;
-	transform: scale(.6);
-}
-.checkbox{
-	display: flex;
-}
-.AdminCheckBox[type="checkbox"] {
-  width: 0;
-  height: 0;
-  visibility: hidden;
-}
-.AdminCheckBoxLabel{
-  width: 150px;
-  height: 60px;
-  margin: 10px;
-  display:block;
-  background-color: #477a85;
-  border-radius: 100px;
-  position: relative;
-  cursor: pointer;
-  transition: 0.5s;
-  box-shadow: 0 0 20px #477a8550;
-}
-.AdminCheckBoxLabel::after{
-  content: "";
-  width: 40px;
-  height: 40px;
-  background-color: #e8f5f7;
-  position: absolute;
-  border-radius: 70px;
-  top: 10px;
-  left: 10px;
-  transition: 0.5s;
-}
-.AdminCheckBox:checked + .AdminCheckBoxLabel:after {
-  left: calc(100% - 10px);
-  transform: translateX(-100%);
-}
 
-.AdminCheckBox:checked + .AdminCheckBoxLabel {
-  background-color: #243d42;
-}
-.AdminCheckBoxLabel:active:after {
-  width: 160px;
-}
-#chk:checked ~ .login{
-	transform: translateY(-500px);
-}
-#chk:checked ~ .login label{
-	transform: scale(1);	
-}
-#chk:checked ~ .signup label{
-	transform: scale(.6);
-}

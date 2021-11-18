@@ -1,22 +1,20 @@
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Ilac Sepeti</title>
-	<link rel="stylesheet" href={{ url_for('static', filename='UI/CsWelcomePage.css')}}>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
-  </head><!DOCTYPE html>
-<html>
 <head>
-	<title>Ilac Sepeti</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>İlaç Sepeti</title>
 	<link rel="stylesheet" href={{ url_for('static', filename='UI/CsWelcomePage.css')}}>
+	{% block css %}
+    {% endblock %}
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container"> 
         <div class="header">
             <h1 class="headerName">İLAÇ SEPETİ'NE HOŞGELDİNİZ</h1>
-            <h3 class="signHeader"></h3>
+            {% block headerName %}
+                <h3 class="signHeader"></h3>
+            {% endblock %}
         </div>
         <div class="main">  	
             <input type="checkbox" id="chk" aria-hidden="true">
