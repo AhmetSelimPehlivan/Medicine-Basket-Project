@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request, url_for
+from flask import Flask, render_template, request, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2.extras
 import psycopg2
@@ -31,27 +31,11 @@ db = SQLAlchemy(app)
 
 @app.route('/WelcomePage', methods=['POST', 'GET'])
 def WelcomePage():
-    if request.method == 'POST':
-       fname = request.form['fname']
-       lname = request.form['lname']
-       tc = request.form['tc']
-       password = request.form['password']
-       print(fname,lname)
-       if fname == '' or lname == '' or tc == '' or password == '':
-            return render_template('WelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
-    return render_template('UserMainPage.html')
+    return render_template('WelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
 
 @app.route('/EczanePanel', methods=['POST', 'GET'])
-def pharmacySignIn():  
-    if request.method == 'POST':
-        fname = request.form['fname']
-        lname = request.form['lname']
-        tc = request.form['tc']
-        password = request.form['password']
-        
-    #    if fname == '' or lname == '' or tc == '' or password == '':
+def pharmacySignIn():
     return render_template('PharmacySignIn.html', message='Lütfen gerekli alanı doldurunuz')
-#    return render_template('GetMedicine.html')
 
 
 @app.route('/IlacDepoPanel', methods=['POST', 'GET'])
@@ -75,10 +59,33 @@ def add_User():
         phone = request.form['phone']
         email = request.form['email']
         pswd = request.form['pswd']
-        cur.execute("INSERT INTO kullanici (tcNo, isim, telefon, email ,sifre) VALUES (%s,%s,%s,%s,%s)", (tc, name, phone, email, pswd))
-        conn.commit()
-        flash('User Added successfully')
-        return render_template('GetMedicine.html')
+        if name == '' or tc == '' or phone == '' or email == '' or pswd == '':
+            return render_template('PharmacySignIn.html', message='Lütfen gerekli alanı doldurunuz')
+        else:
+            cur.execute("INSERT INTO kullanici (tcNo, isim, telefon, email ,sifre) VALUES (%s,%s,%s,%s,%s)", (tc, name, phone, email, pswd))
+            conn.commit()
+            return render_template('UserMainPage.html')
+
+
+@app.route('/Login_User', methods=['POST'])
+def Login_User():
+    if request.method == 'POST':
+        tc = request.form['tc']
+        password = request.form['pswd']
+       
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("SELECT * from kullanici WHERE tcno = %s" % tc)
+        account = cur.fetchone()
+        print(account)
+        if account:
+            password_rs = account['sifre']
+            if password_rs == password:
+                return render_template('UserMainPage.html')
+            else:
+                flash('Incorrect username/password')
+        else:
+            flash('Incorrect username/password')
+            
 if __name__ == '__main__':
     app.debug =True
     app.run()
