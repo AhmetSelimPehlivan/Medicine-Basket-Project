@@ -82,9 +82,7 @@ CREATE TABLE IF NOT EXISTS public."eczacı"
 (
     tcno integer NOT NULL,
     isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    maas integer NOT NULL,
     telefon integer NOT NULL,
-    diplomatarihi time without time zone NOT NULL,
     adminparola character varying(25) COLLATE pg_catalog."default" NOT NULL,
     eczane_id integer NOT NULL,
     CONSTRAINT "eczacı_pkey" PRIMARY KEY (tcno),
@@ -195,24 +193,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.eczanekalfa
     OWNER to postgres;
 
-CREATE TABLE IF NOT EXISTS public.eczanesahibi
-(
-    tcno integer NOT NULL,
-    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    telefon integer NOT NULL,
-    adminparola character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    eczane_id integer NOT NULL,
-    CONSTRAINT eczanesahibi_pkey PRIMARY KEY (tcno),
-    CONSTRAINT eczanesahibi_eczane_id_fkey FOREIGN KEY (eczane_id)
-        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.eczanesahibi
-    OWNER to postgres;
 
 CREATE TABLE IF NOT EXISTS public.eczanestajyer
 (

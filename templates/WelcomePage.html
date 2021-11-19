@@ -17,25 +17,29 @@
             {% endblock %}
         </div>
         <div class="main">  	
-            <input type="checkbox" id="chk" aria-hidden="true">
+            <input type="checkbox" id="chk" value=1 aria-hidden="true">
                 <div class="signup">
                     <form>
                         <label for="chk" aria-hidden="true">Üye Ol</label>
-                        <input type="name" name="name" placeholder="İsim Soyisim" required="">
-                        <input type="number" name="tc" placeholder="TC No" required="">
-                        <input type="number" name="phone" placeholder="Telefon Numarası" required="">
-                        <input type="email" name="email" placeholder="Email" required="">
-                        <input type="password" name="pswd" placeholder="Şifre" required="">
-                        <button>Üye Ol</button>
+                        {% block signinput %}
+                            <input type="name" name="name" placeholder="İsim Soyisim" required="">
+                            <input type="number" name="tc" placeholder="TC No" required="">
+                            <input type="number" name="phone" placeholder="Telefon Numarası" required="">
+                            <input type="email" name="email" placeholder="Email" required="">
+                            <input type="password" name="pswd" placeholder="Şifre" required="">  
+                            <button type="submit" name="submit_sign_user" value="submit_sign_user">Üye Ol</button>
+                        {% endblock %}
                     </form>
                 </div>
 
                 <div class="login">
                     <form>
                         <label for="chk" aria-hidden="true">Giriş Yap</label>
-                        <input type="number" name="tc" placeholder="TC No" required="">
-                        <input type="password" name="pswd" placeholder="Şifre" required="">
-                        <button>Giriş Yap</button>
+                        {% block logininput %}
+                            <input type="number" name="tc" placeholder="TC No" required="">
+                            <input type="password" name="pswd" placeholder="Şifre" required="">
+                        {% endblock %}
+                        <button type="submit" name="submit_log" value="submit_log">Giriş Yap</button>
                     </form>
                 </div>
         </div>

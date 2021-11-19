@@ -19,10 +19,35 @@
     </style>
 {% endblock %}
 {% block headerName %}
-    <h3 class="signHeader">İlaç Deposu Giriş</h3>
+    <h3 class="signHeader">Eczane Giriş</h3>
     <div class="checkbox">
-        <input class="AdminCheckBox" type="checkbox" name="switch" id="switch">
+        <input class="AdminCheckBox" type="checkbox" name="switch" id="switch" value="True">
         <label class="AdminCheckBoxLabel" for="switch"></label>
     </div>
 {% endblock %}
 
+
+{% block signinput %}
+    {% if checkbox == "True" %}
+            <input type="number" name="id" placeholder="Eczane ID" required="">
+            <input type="name" name="name" placeholder="İsim Soyisim" required="">
+            <input type="number" name="tc" placeholder="TC No" required="">
+            <input type="number" name="phone" placeholder="Telefon Numarası" required="">
+            <input type="email" name="email" placeholder="Email" required="">
+            <input type="password" name="pswd" placeholder="Admin Şifre" required="">  
+            <button type="submit" name="submit_pharm_sign_req" value="submit_pharm_sign_req">Kayıt İsteği Gönder</button>
+    {% else%}
+            <input type="name" name="name" placeholder="Eczacı İsim Soyisim" required="">
+            <input type="number" name="tc" placeholder="Eczacı TC No" required="">
+            <input type="number" name="phone" placeholder="Eczacı Telefon Numarası" required="">
+            <input type="email" name="email" placeholder="Eczacı Email" required="">
+            <input type="password" name="pswd" placeholder="Eczacı Admin Şifre" required="">  
+            <button type="submit" name="submit_pharm_sign_admin" value="submit_pharm_sign_admin">Üye Ol</button>
+    {% endif %}
+{% endblock %}
+
+
+{% block logininput %}
+    <input type="number" name="id" placeholder="Eczane ID" required="">
+    <input type="password" name="pswd" placeholder="Şifre" required="">
+{% endblock %}

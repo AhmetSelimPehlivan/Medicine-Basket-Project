@@ -31,27 +31,27 @@ db = SQLAlchemy(app)
 
 @app.route('/WelcomePage', methods=['POST', 'GET'])
 def WelcomePage():
-   # if request.method == 'POST':
-     #   fname = request.form['fname']
-    #    lname = request.form['lname']
-   #     tc = request.form['tc']
-  #      password = request.form['password']
- #       print(fname,lname)
-#        if fname == '' or lname == '' or tc == '' or password == '':
+    if request.method == 'POST':
+       fname = request.form['fname']
+       lname = request.form['lname']
+       tc = request.form['tc']
+       password = request.form['password']
+       print(fname,lname)
+       if fname == '' or lname == '' or tc == '' or password == '':
             return render_template('WelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
-#        return render_template('GetMedicine.html')
+    return render_template('UserMainPage.html')
 
 @app.route('/EczanePanel', methods=['POST', 'GET'])
-def pharmacySignIn():
-   # if request.method == 'POST':
-     #   fname = request.form['fname']
-    #    lname = request.form['lname']
-   #     tc = request.form['tc']
-  #      password = request.form['password']
- #       print(fname,lname)
-#        if fname == '' or lname == '' or tc == '' or password == '':
-            return render_template('pharmacySignIn.html', message='Lütfen gerekli alanı doldurunuz')
-#        return render_template('GetMedicine.html')
+def pharmacySignIn():  
+    if request.method == 'POST':
+        fname = request.form['fname']
+        lname = request.form['lname']
+        tc = request.form['tc']
+        password = request.form['password']
+        
+    #    if fname == '' or lname == '' or tc == '' or password == '':
+    return render_template('PharmacySignIn.html', message='Lütfen gerekli alanı doldurunuz')
+#    return render_template('GetMedicine.html')
 
 
 @app.route('/IlacDepoPanel', methods=['POST', 'GET'])
