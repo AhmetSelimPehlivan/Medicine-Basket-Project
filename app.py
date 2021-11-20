@@ -2,8 +2,14 @@ from flask import Flask, render_template, request, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2.extras
 import psycopg2
+from PharmacyMission import PharmacyMission
+from PharmacyWHMission import PharmacyWHMission
+from User import User
 
 app = Flask(__name__)
+app.register_blueprint(PharmacyMission, url_prefix="/Pharmacy_Admin")
+app.register_blueprint(PharmacyWHMission, url_prefix="/PharmacyWH_Admin")
+app.register_blueprint(User, url_prefix="/User")
 
 DB_HOST = "localhost"
 DB_Name = "IlacSepeti"
@@ -39,32 +45,6 @@ def PharmacyWelcomePage():
 def PharmacyWHSignIn():
     return render_template('PharmacyWHWelcomePage.html')
 
-
-@app.route('/PharmacyActions')
-def PharmacyActions():
-    print("Burda")
-    if request.method == "POST":
-        if request.form.get("submit_problemList"):
-            return render_template('PharmacyProblemList.html')
-        elif request.form.get("submit_problemAdd"):
-            return render_template('PharmacyProblemAdd.html')
-        elif request.form.get("submit_PharmList"):
-            return render_template('PharmacyStockList.html')
-        elif request.form.get("submit_Personel_CRUD"):
-            return render_template('PharmacyStaffCrud.html')
-    return render_template('PharmacistAdmin.html')
-@app.route('/PharmacyProblemList')
-def PharmacyProblemList():
-    return render_template('PharmacyProblemList.html')
-@app.route('/PharmacyProblemAdd')
-def PharmacyProblemAdd():
-    return render_template('PharmacyProblemAdd.html')
-@app.route('/PharmacyStockList')
-def PharmacyStockList():
-    return render_template('PharmacyStockList.html')
-@app.route('/PharmacyStaffCrud')
-def PharmacyStaffCrud():
-    return render_template('PharmacyStaffCrud.html')
 
 @app.route('/Add_Pharm', methods=['POST', 'GET'])
 def add_pharmacy():
