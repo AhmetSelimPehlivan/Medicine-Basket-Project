@@ -29,26 +29,117 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-@app.route('/WelcomePage', methods=['POST', 'GET'])
+@app.route('/WelcomePage')
 def WelcomePage():
-    return render_template('WelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
-
-@app.route('/EczanePanel', methods=['POST', 'GET'])
-def pharmacySignIn():
-    return render_template('PharmacySignIn.html', message='Lütfen gerekli alanı doldurunuz')
-
-
-@app.route('/IlacDepoPanel', methods=['POST', 'GET'])
+    return render_template('WelcomePage.html')
+@app.route('/EczanePanel')
+def PharmacyWelcomePage():
+    return render_template('PharmacyWelcomePage.html')
+@app.route('/IlacDepoPanel')
 def PharmacyWHSignIn():
-   # if request.method == 'POST':
-    #   fname = request.form['fname']
-    #    lname = request.form['lname']
-   #     tc = request.form['tc']
-  #      password = request.form['password']
- #       print(fname,lname)
-    #        if fname == '' or lname == '' or tc == '' or password == '':
-    return render_template('PharmacyWHSignIn.html', message='Lütfen gerekli alanı doldurunuz')
-#        return render_template('GetMedicine.html')
+    return render_template('PharmacyWHWelcomePage.html')
+
+
+@app.route('/PharmacyActions')
+def PharmacyActions():
+    print("Burda")
+    if request.method == "POST":
+        if request.form.get("submit_problemList"):
+            return render_template('PharmacyProblemList.html')
+        elif request.form.get("submit_problemAdd"):
+            return render_template('PharmacyProblemAdd.html')
+        elif request.form.get("submit_PharmList"):
+            return render_template('PharmacyStockList.html')
+        elif request.form.get("submit_Personel_CRUD"):
+            return render_template('PharmacyStaffCrud.html')
+    return render_template('PharmacistAdmin.html')
+@app.route('/PharmacyProblemList')
+def PharmacyProblemList():
+    return render_template('PharmacyProblemList.html')
+@app.route('/PharmacyProblemAdd')
+def PharmacyProblemAdd():
+    return render_template('PharmacyProblemAdd.html')
+@app.route('/PharmacyStockList')
+def PharmacyStockList():
+    return render_template('PharmacyStockList.html')
+@app.route('/PharmacyStaffCrud')
+def PharmacyStaffCrud():
+    return render_template('PharmacyStaffCrud.html')
+
+@app.route('/Add_Pharm', methods=['POST', 'GET'])
+def add_pharmacy():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == 'POST':
+        tc = request.form['tc']
+        name = request.form['name']
+        phone = request.form['phone']
+        pswd = request.form['pswd']
+        email = request.form['email']
+        if name == '' or tc == '' or phone == '' or email == '' or pswd == '':
+            return render_template('PharmacyWelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
+        else:
+            cur.execute("INSERT INTO eczaci (tcNo, isim, telefon, adminparola, email) VALUES (%s,%s,%s,%s,%s)",
+                        (tc, name, phone, pswd, email))
+            conn.commit()
+            return render_template('PharmacistAdmin.html')
+
+
+@app.route('/LogIn_Pharm_Admin', methods=['POST', 'GET'])
+def LogIn_Pharm():
+    if request.method == 'POST':
+        tc = request.form['tc']
+        password = request.form['pswd']
+
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("SELECT * from eczaci WHERE tcno = %s" % (tc))
+        account = cur.fetchone()
+        print(account)
+        if account:
+            password_rs = account['adminparola']
+            if password_rs == password:
+                return render_template('PharmacistAdmin.html')
+            else:
+                flash('Incorrect username/password')
+        else:
+            flash('Incorrect username/password')
+            
+@app.route('/add_WHP', methods=['POST'])
+def add_WHP():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == 'POST':
+        name = request.form['name']
+        tc = request.form['tc']
+        phone = request.form['phone']
+        email = request.form['email']
+        pswd = request.form['pswd']
+        if name == '' or tc == '' or phone == '' or email == '' or pswd == '':
+            return render_template('PharmacyWelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
+        else:
+            cur.execute("INSERT INTO depomudur (tcno, isim, telefon, adminparola, email) VALUES (%s,%s,%s,%s,%s)",
+                        (tc, name, phone, pswd, email))
+            conn.commit()
+            return render_template('PharmacyWHAdmin.html')
+
+
+@app.route('/Login_WHP_Admin', methods=['POST'])
+def Login_WHP():
+    if request.method == 'POST':
+        tc = request.form['tc']
+        password = request.form['pswd']
+       
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("SELECT * from depomudur WHERE tcno = %s" % (tc))
+        account = cur.fetchone()
+        print(account)
+        if account:
+            password_rs = account['adminparola']
+            if password_rs == password:
+                return render_template('PharmacyWHAdmin.html')
+            else:
+                flash('Incorrect username/password')
+        else:
+            flash('Incorrect username/password')
+
 
 @app.route('/add_User', methods=['POST'])
 def add_User():
@@ -62,7 +153,8 @@ def add_User():
         if name == '' or tc == '' or phone == '' or email == '' or pswd == '':
             return render_template('PharmacySignIn.html', message='Lütfen gerekli alanı doldurunuz')
         else:
-            cur.execute("INSERT INTO kullanici (tcNo, isim, telefon, email ,sifre) VALUES (%s,%s,%s,%s,%s)", (tc, name, phone, email, pswd))
+            cur.execute("INSERT INTO kullanici (tcNo, isim, telefon, email ,sifre) VALUES (%s,%s,%s,%s,%s)",
+                        (tc, name, phone, email, pswd))
             conn.commit()
             return render_template('UserMainPage.html')
 
@@ -72,9 +164,9 @@ def Login_User():
     if request.method == 'POST':
         tc = request.form['tc']
         password = request.form['pswd']
-       
+
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute("SELECT * from kullanici WHERE tcno = %s" % tc)
+        cur.execute("SELECT * from kullanici WHERE tcno = %s" % (tc))
         account = cur.fetchone()
         print(account)
         if account:
@@ -85,7 +177,8 @@ def Login_User():
                 flash('Incorrect username/password')
         else:
             flash('Incorrect username/password')
-            
+
+
 if __name__ == '__main__':
     app.debug =True
     app.run()

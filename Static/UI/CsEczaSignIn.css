@@ -1,0 +1,27 @@
+{% extends 'WelcomePage.html' %}
+{% block css %}
+    <style>
+        body{
+        	background: linear-gradient(to bottom, #880207, #AB050B, #AB050B);
+        }
+        button{
+            background: #FFFFFF;
+            color: #AB050B;
+        }
+        button:hover{
+            background: #AB050B;
+            color: #FFFFFF;
+        }
+        .login label{
+            color: #AB050B;
+            transform: scale(.6);
+        }
+    </style>
+{% endblock %}
+{% block headerName %}
+    <h3 class="signHeader">İlaç Deposu Giriş</h3>
+    <div class="checkbox">
+        <input class="AdminCheckBox" type="checkbox" name="switch" id="switch">
+        <label class="AdminCheckBoxLabel" for="switch"></label>
+    </div>
+    {% endblock %}

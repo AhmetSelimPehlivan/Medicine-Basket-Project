@@ -1,0 +1,70 @@
+{% extends 'WelcomePage.html' %}
+{% block css %}
+    <style>
+        body{
+        	background: linear-gradient(to bottom, #257300, #319A00, #34A100);
+        }
+        button{
+            background: #FFFFFF;
+            color: #2C8800;
+        }
+        button:hover{
+            background: #2C8800;
+            color: #FFFFFF;
+        }
+        .login label{
+            color: #2C8800;
+            transform: scale(.6);
+        }
+        
+    </style>
+{% endblock %}
+{% block headerName %}
+    <h3 class="signHeader">İlaç Deposu Giriş</h3>
+    <div class="checkbox">
+        <input class="AdminCheckBox" type="checkbox" name="switch" id="switch">
+        <label class="AdminCheckBoxLabel" for="switch"></label>
+    </div>
+{% endblock %}
+
+
+{% block signinput %}
+    {% if checkbox == "True" %}
+        <form action="{{ url_for('add_WHP')}}" method="POST">
+            <label for="chk" aria-hidden="true">Üye Ol</label>
+            <input type="number" name="id" placeholder="Depo ID" required="">
+            <input type="name" name="name" placeholder="Perosonel İsim Soyisim" required="">
+            <input type="number" name="tc" placeholder="PerosonelTC No" required="">
+            <input type="number" name="phone" placeholder="PerosonelTelefon Numarası" required="">
+            <input type="email" name="email" placeholder="PerosonelEmail" required="">
+            <input type="password" name="pswd" placeholder="Perosonel Admin Şifre" required="">  
+            <button type="submit" name="submit_pharm_sign_req" value="submit_pharm_sign_req">Kayıt İsteği Gönder</button>
+        </form>
+    {% else%}
+        <form action="{{ url_for('add_WHP')}}" method="POST">
+            <label for="chk" aria-hidden="true">Üye Ol</label>
+            <input type="name" name="name" placeholder="Depo Admin İsim Soyisim" required="">
+            <input type="number" name="tc" placeholder="Depo Admin TC No" required="">
+            <input type="number" name="phone" placeholder="Depo Admin Telefon Numarası" required="">
+            <input type="email" name="email" placeholder="Depo Admin Email" required="">
+            <input type="password" name="pswd" placeholder="Depo Admin Admin Şifre" required="">  
+            <button type="submit" name="submit_pharm_sign_admin" value="submit_pharm_sign_admin">Üye Ol</button>
+        </form>
+    {% endif %}
+{% endblock %}
+
+
+{% block logininput %}
+    {% if checkbox == "True" %}
+        <form action="{{ url_for('Login_WHP')}}" method="POST">
+            <label for="chk" aria-hidden="true">Giriş Yap</label>
+            <input type="number" name="id" placeholder="Depo ID" required="">
+    {% else%}
+        <form action="{{ url_for('Login_WHP')}}" method="POST">
+            <label for="chk" aria-hidden="true">Giriş Yap</label>
+            <input type="number" name="tc" placeholder="Depo Personel TC No" required="">
+    {% endif %}
+        <input type="password" name="pswd" placeholder="Şifre" required="">
+        <button class="submitButton" type="submit" name="submit_log">Giriş Yap</button>
+    </form>
+{% endblock %}

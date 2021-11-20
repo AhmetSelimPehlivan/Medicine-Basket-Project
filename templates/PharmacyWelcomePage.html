@@ -14,7 +14,6 @@
         }
         .login label{
             color: #AB050B;
-            transform: scale(.6);
         }
     </style>
 {% endblock %}
@@ -29,6 +28,8 @@
 
 {% block signinput %}
     {% if checkbox == "True" %}
+        <form action="{{ url_for('add_pharmacy')}}" method="POST">
+            <label for="chk" aria-hidden="true">Üye Ol</label>
             <input type="number" name="id" placeholder="Eczane ID" required="">
             <input type="name" name="name" placeholder="İsim Soyisim" required="">
             <input type="number" name="tc" placeholder="TC No" required="">
@@ -36,18 +37,32 @@
             <input type="email" name="email" placeholder="Email" required="">
             <input type="password" name="pswd" placeholder="Admin Şifre" required="">  
             <button type="submit" name="submit_pharm_sign_req" value="submit_pharm_sign_req">Kayıt İsteği Gönder</button>
+        </form>
     {% else%}
+        <form action="{{ url_for('add_pharmacy')}}" method="POST">
+            <label for="chk" aria-hidden="true">Üye Ol</label>
             <input type="name" name="name" placeholder="Eczacı İsim Soyisim" required="">
             <input type="number" name="tc" placeholder="Eczacı TC No" required="">
             <input type="number" name="phone" placeholder="Eczacı Telefon Numarası" required="">
             <input type="email" name="email" placeholder="Eczacı Email" required="">
             <input type="password" name="pswd" placeholder="Eczacı Admin Şifre" required="">  
             <button type="submit" name="submit_pharm_sign_admin" value="submit_pharm_sign_admin">Üye Ol</button>
+        </form>
     {% endif %}
 {% endblock %}
 
 
 {% block logininput %}
-    <input type="number" name="id" placeholder="Eczane ID" required="">
-    <input type="password" name="pswd" placeholder="Şifre" required="">
+    {% if checkbox == "True" %}
+        <form action="{{ url_for('LogIn_Pharm')}}" method="POST">
+            <label for="chk" aria-hidden="true">Giriş Yap</label>
+            <input type="number" name="id" placeholder="Eczane ID" required="">
+    {% else%}
+        <form action="{{ url_for('LogIn_Pharm')}}" method="POST">
+            <label for="chk" aria-hidden="true">Giriş Yap</label>
+            <input type="number" name="tc" placeholder="Eczacı TC No" required="">
+    {% endif %}
+        <input type="password" name="pswd" placeholder="Şifre" required="">
+        <button class="submitButton" type="submit" name="submit_log">Giriş Yap</button>
+    </form>
 {% endblock %}
