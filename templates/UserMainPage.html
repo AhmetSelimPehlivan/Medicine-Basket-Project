@@ -1,0 +1,45 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>İlaç Sepeti</title>
+	<link rel="stylesheet" href={{ url_for('static', filename='UI/CsUserMainPage.css')}}>
+	{% block css %}
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container"> 
+        <div class="header">
+            {% block headerName %}
+                <h3 class="signHeader"></h3>
+            {% endblock %}
+        </div>
+        <div class="main">
+            <div class="RecipeInfo">
+                <header>
+                    <h1 class="Recipe__title">Reçete</h1>
+                </header>
+                <form method="POST">
+                    <label for="recipe" aria-hidden="true"></label>
+                    <input type="rcp" name="number" placeholder="Reçete Numarası" required="">
+                    <input type="sgk" name="number" placeholder="SGK Numarası" required="">
+                    <button class="submitButton" type="submit" name="">Reçete Sorgula</button>
+                </form>
+            </div>
+            <article class="PharmList">
+                <header>
+                    <h1 class="Pharm__title"><span class="Pharm__title--top">1111 Numaralı</span><span class="Pharm__title--bottom">Reçete</span></h1>
+                </header>
+                <main class="Pharm__profiles">
+                    <article class="Pharm__profile">-
+                    <span class="Pharm__name">Mark Zuckerberg</span>
+                    <span class="Pharm__value">35.7<span>B</span></span>
+                    </article>
+                </main>
+            </article>
+        </div>
+    </div>
+</body>
+</html>

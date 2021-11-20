@@ -1,0 +1,162 @@
+.RecipeInfo{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  max-width: 350px;
+  width: 100%;
+  border-radius: 12px; 
+  box-shadow: 0 0 40px -10px rgba(0, 0, 0, .4);
+  background-color: #fff;
+}
+.Recipe__title {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: calc(var(--start) * .75);
+    transform: translateY(-50%);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+form{
+}
+input{
+	width: 60%;
+	height: 20px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 17px auto;
+	padding: 15px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+button{
+	width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: linear-gradient(to right, #5b7cfa, #3659db);
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 20px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+button:hover{
+	background: linear-gradient(to right, #5b7cfa, #3659db);
+}
+.PharmList {
+  max-width: 490px;
+  width: 100%;
+  border-radius: 12px; 
+  box-shadow: 0 0 40px -10px rgba(0, 0, 0, .4);
+}
+
+  header {
+    --start: 15%;
+    height: 130px;
+    background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db);
+    color: #fff;
+    position: relative;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+  }
+    .Pharm__title {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      right: calc(var(--start) * .75);
+      transform: translateY(-50%);
+      text-transform: uppercase;
+      margin: 0;
+    }
+      
+      .Pharm__title--top {
+        display: block;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      
+      .Pharm__title--bottom {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 3.55px;
+        opacity: .65;
+        transform: translateY(-2px);
+      }
+    
+    .leaderboard__icon {
+      fill: #fff;
+      opacity: .35;
+      width: 50px;
+      position: absolute;
+      top: 50%;
+      left: var(--start);
+      transform: translate(-50%, -50%);
+  }
+  
+  .Pharm__profiles {
+    background-color: #fff;
+    border-radius: 0 0 12px 12px;
+    padding: 15px 15px 20px;
+    display: grid;
+    row-gap: 8px;
+  }
+  
+  .Pharm__profile {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
+    padding: 10px 30px 10px 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
+    cursor: pointer;
+    transition: transform .25s cubic-bezier(.7,.98,.86,.98), box-shadow .25s cubic-bezier(.7,.98,.86,.98);
+    background-color: #fff;
+    }
+
+    .Pharm__profiles:hover {
+      transform: scale(1.2);
+      box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+    }
+  
+  .Pharm__name {
+    color: #979cb0;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.64px;
+    margin-left: 12px;
+  }
+  
+  .Pharm__value {
+    color: #35d8ac;
+    font-weight: 700;
+    font-size: 34px;
+    text-align: right;
+  }
+    
+   .Pharm__profiles > span {
+      opacity: .8;
+      font-weight: 600;
+      font-size: 13px;
+      margin-left: 3px;
+    }
+
+body {
+  margin: 0;
+  background-color: #eaeaea;
+  display: grid;
+  height: 100vh;
+  place-items: center;
+  font-family: 'Source Sans Pro', sans-serif;
+}
