@@ -1,14 +1,14 @@
-from flask import Flask, render_template, request, url_for, session, flash
+from flask import Flask, render_template, request, url_for, session, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2.extras
 import psycopg2
 from PharmacyMission import PharmacyMission
-from PharmacyWHMission import PharmacyWHMission
+from PharmacyStaff import PharmacyStaff
 from User import User
 
 app = Flask(__name__)
 app.register_blueprint(PharmacyMission, url_prefix="/Pharmacy_Admin")
-app.register_blueprint(PharmacyWHMission, url_prefix="/PharmacyWH_Admin")
+app.register_blueprint(PharmacyStaff, url_prefix="/PharmacyStaff")
 app.register_blueprint(User, url_prefix="/User")
 
 DB_HOST = "localhost"
@@ -35,6 +35,16 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+@app.route('/', methods=['POST','GET'])
+def home():
+    if request.method == "POST":
+        if request.form.get("EczanePanel"):
+            return redirect(url_for('PharmacyWelcomePage'))
+        elif request.form.get("WelcomePage"):
+            return redirect(url_for('WelcomePage'))
+        elif request.form.get("PharmacistStaff"):
+            return redirect(url_for('PharmacistStaff'))
+    return render_template('index.html')
 
 @app.route('/WelcomePage')
 def WelcomePage():
@@ -42,9 +52,9 @@ def WelcomePage():
 @app.route('/EczanePanel')
 def PharmacyWelcomePage():
     return render_template('PharmacyWelcomePage.html')
-@app.route('/IlacDepoPanel')
-def PharmacyWHSignIn():
-    return render_template('PharmacyWHWelcomePage.html')
+@app.route('/PharmacistStaff')
+def PharmacistStaff():
+    return render_template('PharmacistStaff.html')
 
 
 @app.route('/Add_Pharm', methods=['POST', 'GET'])

@@ -162,6 +162,7 @@ def add_ProblemTemplate():
             cur.execute("INSERT INTO belirtecler (belirtecid, belirtectanimi) VALUES (%s,%s)",
                         (BelirtecID, BelirtecTanimi))
             conn.commit()
+            return redirect(url_for('PharmacyMission.Belirtec'))
         elif request.form.get("Cikti"):
             AlanID = request.form['AlanID']
             SinifID = request.form['SinifID']

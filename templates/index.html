@@ -19,9 +19,10 @@
             <h3 class="signHeader"></h3>
         </div>
         <div class="main">
-         	<div class="EczaneSignIn"><a href="EczanePanel">Eczane Paneli Giriş</a></div>
-            <div class="IlacDeposuSignIn"><a href="WelcomePage">Kullanıcı Paneli Giriş</a></div>
-            <div class="KullaniciSignIn"><a href="IlacDepoPanel">İlaç Deposu Giriş</a></div> 
+        <form action="{{ url_for('home')}}" method="POST">
+         	<button class="EczaneSignIn" name="EczanePanel" value="EczanePanel">Eczane Admin Paneli Giriş</button>
+            <button class="KullaniciSignIn" name="WelcomePage" value="WelcomePage">Kullanıcı Paneli Giriş</button>
+            <button class="PharmacistStaff" name="PharmacistStaff" value="PharmacistStaff">Eczane Personel Giriş</button> 
         </div>
     </div>
 </body>
