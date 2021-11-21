@@ -12,9 +12,18 @@
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
-      <h1 class="navbar-brand">Eczane Personel Yönetimi</h1>
+      <h1 class="navbar-brand">Eczane Admin Şablon</h1>
     </nav>
     <div class="container pt-4">
+      <form action="{{ url_for('PharmacyMission.ProblemIndex')}}" method="POST" style="display: flex; margin-bottom: 25px;"> 
+        <button type="submit" class="btn btn-primary btn-block m-1" name="Alan" value="Alan" ><span aria-hidden="true">Alanlar</span></button>
+        <button type="submit" class="btn btn-primary btn-block m-1" name="Sinif" value="Sinif"><span aria-hidden="true">Sınıflar</span></button>
+        <button type="submit" class="btn btn-primary btn-block m-1" name="Mudahale" value="Mudahale"><span aria-hidden="true">Müdahale</span></button>
+        <button type="submit" class="btn btn-primary btn-block m-1" name="Aktivite" value="Aktivite"><span aria-hidden="true">Aktiviteler</span></button>
+        <button type="submit" class="btn btn-primary btn-block m-1" name="Belirtec" value="Belirtec"><span aria-hidden="true">Belirteçler</span></button>
+        <button type="submit" class="btn btn-primary btn-block m-1" name="Cikti" value="Cikti"><span aria-hidden="true">Çıktı</span></button>
+        <button type="submit" class="btn btn-primary btn-block m-1" name="7" value="7"><span aria-hidden="true">7</span></button>
+      </form>
       {% block body %}
       {% endblock %}
     </div>

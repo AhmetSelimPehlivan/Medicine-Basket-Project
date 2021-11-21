@@ -1,0 +1,32 @@
+{% extends "Pharmacy/PharmacyStaffCrud.html" %}
+{% block body %}
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="card card-body">
+        <form action="/update/{{staff.tcno}}" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" name="tcno" value="{{staff.tcno}}">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="name" value="staff.isim">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" value="staff.email">
+          </div>
+          <div class="form-group">
+            <input type="phone" class="form-control" name="phone" value="staff.telefon">
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" name="id" value="staff.eczane_id">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="pswd" value="staff.sifre">
+          </div>
+          <button class="btn btn-primary btn-block">
+            Kayıt 
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

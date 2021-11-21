@@ -12,11 +12,12 @@ app.register_blueprint(PharmacyWHMission, url_prefix="/PharmacyWH_Admin")
 app.register_blueprint(User, url_prefix="/User")
 
 DB_HOST = "localhost"
-DB_Name = "IlacSepeti"
+DB_NAME = "IlacSepeti"
 DB_USER = "postgres"
 DB_PASS = "selimyucu03"
 
-conn = psycopg2.connect(dbname=DB_Name, user=DB_USER, password=DB_PASS, host=DB_HOST)
+conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER,
+                        password=DB_PASS, host=DB_HOST)
 
 @app.route('/')
 def index():
