@@ -36,150 +36,126 @@ def PharmacyProblemList():
 @PharmacyStaff.route('/ProblemMudahaleIndex', methods=['POST', 'GET'])
 def ProblemMudahaleIndex():
     if request.method == "POST":
-        if request.form.get("Alan"):
-            return redirect(url_for('PharmacyStaff.Alan'))
-        elif request.form.get("Sinif"):
-            return redirect(url_for('PharmacyStaff.Sinif'))
-        elif request.form.get("Mudahale"):
-            return redirect(url_for('PharmacyStaff.Mudahale'))
-        elif request.form.get("Aktivite"):
-            return redirect(url_for('PharmacyStaff.Aktivite'))
-        elif request.form.get("Cikti"):
-            return redirect(url_for('PharmacyStaff.Cikti'))
-        elif request.form.get("Belirtec"):
-            return redirect(url_for('PharmacyStaff.Belirtec'))
-        elif request.form.get("7"):
-            return redirect(url_for('PharmacyStaff.Aktivite'))
+        if request.form.get("ProblemMudahale"):
+            return redirect(url_for('PharmacyStaff.ProblemMudahale'))
+        elif request.form.get("ProblemCikti"):
+            return redirect(url_for('PharmacyStaff.ProblemCikti'))
+        elif request.form.get("IlaveMudahaleDetay"):
+            return redirect(url_for('PharmacyStaff.IlaveMudahaleDetay'))
+        elif request.form.get("IlaveCiktiDetay"):
+            return redirect(url_for('PharmacyStaff.IlaveCiktiDetay'))
+        elif request.form.get("PersonelProblem"):
+            return redirect(url_for('PharmacyStaff.PersonelProblem'))
+        elif request.form.get("ProblemCiktiDegerlendirme"):
+            return redirect(url_for('PharmacyStaff.ProblemCiktiDegerlendirme'))
+        elif request.form.get("ProblemDurumDegerlendirme"):
+            return redirect(url_for('PharmacyStaff.ProblemDurumDegerlendirme'))
     return render_template('PharmacyStaff/Problem/ProblemList.html')
 
 
-@PharmacyStaff.route('/Alan')
-def Alan():
+@PharmacyStaff.route('/ProblemMudahale')
+def ProblemMudahale():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM alanlar")
+    cur.execute("SELECT * FROM ProblemMudahale")
     list_users = cur.fetchall()
-    return render_template('PharmacyStaff/Problem/Alan/AlanList.html', list_users=list_users)
+    return render_template('PharmacyStaff/Problem/ProblemMudahale/ProblemMudahaleList.html', list_users=list_users)
 
 
-@PharmacyStaff.route('/Sinif')
-def Sinif():
+@PharmacyStaff.route('/ProblemCikti')
+def ProblemCikti():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM siniflar")
+    cur.execute("SELECT * FROM problemcikti")
     list_users = cur.fetchall()
-    return render_template('PharmacyStaff/Problem/Sinif/SinifList.html', list_users=list_users)
+    return render_template('PharmacyStaff/Problem/ProblemCikti/ProblemCiktiList.html', list_users=list_users)
 
-@PharmacyStaff.route('/Mudahale')
-def Mudahale():
+
+@PharmacyStaff.route('/IlaveMudahaleDetay')
+def IlaveMudahaleDetay():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM Mudahale")
+    cur.execute("SELECT * FROM IlaveMudahaleDetay")
     list_users = cur.fetchall()
-    return render_template('PharmacyStaff/Problem/Mudahale/MudahaleList.html', list_users=list_users)
+    return render_template('PharmacyStaff/Problem/IlaveMudahaleDetay/IlaveMudahaleDetayList.html', list_users=list_users)
 
-@PharmacyStaff.route('/Aktivite')
-def Aktivite():
+
+@PharmacyStaff.route('/IlaveCiktiDetay')
+def IlaveCiktiDetay():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM aktiviteler")
+    cur.execute("SELECT * FROM IlaveCiktiDetay")
     list_users = cur.fetchall()
-    return render_template('PharmacyStaff/Problem/Aktivite/AktiviteList.html', list_users=list_users)
+    return render_template('PharmacyStaff/Problem/IlaveCiktiDetay/IlaveCiktiDetayList.html', list_users=list_users)
 
-
-@PharmacyStaff.route('/Cikti')
-def Cikti():
+@PharmacyStaff.route('/PersonelProblem')
+def PersonelProblem():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM cikti")
+    cur.execute("SELECT * FROM PersonelProblem")
     list_users = cur.fetchall()
-    return render_template('PharmacyStaff/Problem/Cikti/CiktiList.html', list_users=list_users)
+    return render_template('PharmacyStaff/Problem/PersonelProblem/PersonelProblemList.html', list_users=list_users)
 
 
-@PharmacyStaff.route('/Belirtec')
-def Belirtec():
+@PharmacyStaff.route('/ProblemCiktiDegerlendirme')
+def ProblemCiktiDegerlendirme():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM belirtecler")
+    cur.execute("SELECT * FROM ProblemCiktiDegerlendirme")
     list_users = cur.fetchall()
-    return render_template('PharmacyStaff/Problem/Belirtec/BelirtecList.html', list_users=list_users)
+    return render_template('PharmacyStaff/Problem/ProblemCiktiDegerlendirme/ProblemCiktiDegerlendirmeList.html', list_users=list_users)
+
+
+@PharmacyStaff.route('/ProblemDurumDegerlendirme')
+def ProblemDurumDegerlendirme():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute("SELECT * FROM problemdurumdegerlendirme")
+    list_users = cur.fetchall()
+    return render_template('PharmacyStaff/Problem/ProblemDurumDegerlendirme/ProblemDurumDegerlendirmeList.html', list_users=list_users)
 
 @PharmacyStaff.route('/template/ProblemTemplate', methods=['POST'])
 def add_ProblemTemplate():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == 'POST':
-        if request.form.get("Alan"):
-            alanID = request.form['id']
-            alanadi = request.form['name']
-            alantipi = request.form['type']
+        if request.form.get("ProblemMudahale"):
+            print("sdsd")
+            alanID = request.form['alanID']
+            sinifID = request.form['sinifID']
+            mudahaleID = request.form['mudahaleID']
+            problemID = request.form['problemID']
             cur.execute(
-                'SELECT DISTINCT alanid FROM alanlar WHERE alanid=%s' % (alanID))
+                'SELECT DISTINCT * FROM problemmudahale WHERE alanid=%s and sinifid=%s and mudahaleid=%s and problemid=%s' % (alanID, sinifID, mudahaleID, problemID))
             data = cur.fetchall()
             if len(data) > 0:
                 # flash('Girdiğiniz Eczane_Id mevcut değil')
-                render_template('PharmacyStaff/Problem/Alan/AlanList.html')
-            cur.execute("INSERT INTO alanlar (alanid, alanadi, alantipi) VALUES (%s,%s,%s)",
-                        (alanID, alanadi, alantipi))
+                render_template('PharmacyStaff/Problem/ProblemMudahale/ProblemMudahaleList.html')
+            cur.execute("INSERT INTO problemmudahale (alanid, sinifid, mudahaleid, problemid) VALUES (%s,%s,%s,%s)",
+                        (alanID, sinifID, mudahaleID, problemID))
             conn.commit()
-            return redirect(url_for('PharmacyStaff.Alan'))
-        elif request.form.get("Sinif"):
-            SinifID = request.form['SinifID']
-            SinifAdi = request.form['SinifAdi']
-            AlanTipi = request.form['AlanTipi']
+            return redirect(url_for('PharmacyStaff.ProblemMudahale'))
+        elif request.form.get("ProblemCikti"):
+            alanID = request.form['alanID']
+            sinifID = request.form['sinifID']
+            ciktiID = request.form['ciktiID']
+            problemID = request.form['problemID']
             cur.execute(
-                'SELECT DISTINCT sinifid FROM siniflar WHERE sinifid=%s' % (SinifID))
+                'SELECT DISTINCT * FROM problemcikti WHERE alanid=%s and sinifid=%s and ciktiid=%s and problemid=%s' % (alanID, sinifID, ciktiID, problemID))
             data = cur.fetchall()
             if len(data) > 0:
                 # flash('Girdiğiniz Eczane_Id mevcut değil')
                 render_template('PharmacyStaff/Problem/Sinif/SinifList.html')
-            cur.execute("INSERT INTO siniflar (sinifid, sinifadi, alantipi) VALUES (%s,%s,%s)",
-                        (SinifID, SinifAdi, AlanTipi))
+            cur.execute("INSERT INTO problemcikti (alanid, sinifid, ciktiid, problemid) VALUES (%s,%s,%s,%s)",
+                        (alanID, sinifID, ciktiID, problemID))
             conn.commit()
-            return redirect(url_for('PharmacyStaff.Sinif'))
-        elif request.form.get("Mudahale"):
-            AlanID = request.form['AlanID']
-            SinifID = request.form['SinifID']
-            MudaheleID = request.form['MudaheleID']
-            MudahaleAdi = request.form['MudahaleAdi']
-            cur.execute("INSERT INTO mudahale (alanid, sinifid, mudahaleid, mudahaleadi) VALUES (%s,%s,%s,%s)",
-                        (AlanID, SinifID, MudaheleID, MudahaleAdi))
-            conn.commit()
-            return redirect(url_for('PharmacyStaff.Mudahale'))
-        elif request.form.get("Aktivite"):
-            aktiviteID = request.form['id']
-            aktiviteTanim = request.form['tanim']
+            return redirect(url_for('PharmacyStaff.ProblemCikti'))
+        elif request.form.get("PersonelProblem"):
+            ProblemID = request.form['ProblemID']
+            tcno = request.form['tcno']
             cur.execute(
-                'SELECT DISTINCT aktiviteID FROM aktiviteler WHERE aktiviteid=%s' % (aktiviteID))
+                'SELECT DISTINCT * FROM PersonelProblem WHERE ProblemID=%s and KullaniciAdi=%s' , (ProblemID,tcno))
             data = cur.fetchall()
             if len(data) > 0:
                 # flash('Girdiğiniz Eczane_Id mevcut değil')
-                render_template('PharmacyStaff/Problem/Aktivite/AktiviteList.html')
-            cur.execute("INSERT INTO aktiviteler (aktiviteid, aktivitetanimi) VALUES (%s,%s)",
-                        (aktiviteID, aktiviteTanim))
+                render_template(
+                    'PharmacyStaff/Problem/PersonelProblem/PersonelProblemList.html')
+            cur.execute("INSERT INTO PersonelProblem (ProblemID, KullaniciAdi) VALUES (%s,%s)",
+                        (ProblemID, tcno))
             conn.commit()
-            return redirect(url_for('PharmacyStaff.Aktivite'))
-        elif request.form.get("Belirtec"):
-            BelirtecID = request.form['BelirtecID']
-            BelirtecTanimi = request.form['Belirtectanimi']
-            cur.execute(
-                'SELECT DISTINCT BelirtecID FROM belirtecler WHERE belirtecid=%s' % (BelirtecID))
-            data = cur.fetchall()
-            if len(data) > 0:
-                # flash('Girdiğiniz Eczane_Id mevcut değil')
-                render_template('PharmacyStaff/Problem/Belirtec/BelirtecList.html')
-            cur.execute("INSERT INTO belirtecler (belirtecid, belirtectanimi) VALUES (%s,%s)",
-                        (BelirtecID, BelirtecTanimi))
-            conn.commit()
-            return redirect(url_for('PharmacyStaff.Belirtec'))
-        elif request.form.get("Cikti"):
-            AlanID = request.form['AlanID']
-            SinifID = request.form['SinifID']
-            CiktiID = request.form['CiktiID']
-            CiktiAdi = request.form['CiktiAdi']
-            cur.execute(
-                'SELECT DISTINCT ciktiid FROM cikti WHERE ciktiid=%s' % (CiktiID))
-            data = cur.fetchall()
-            if len(data) > 0:
-                # flash('Girdiğiniz Eczane_Id mevcut değil')
-                render_template('PharmacyStaff/Problem/Cikti/CiktiList.html')
-            cur.execute("INSERT INTO cikti (alanid, sinifid,ciktiid, ciktiadi) VALUES (%s,%s,%s,%s)",
-                        (AlanID, SinifID, CiktiID, CiktiAdi))
-            conn.commit()
-        return redirect(url_for('PharmacyStaff.Cikti'))
+            return redirect(url_for('PharmacyStaff.PersonelProblem'))
     return redirect(url_for('PharmacyStaff.ProblemMudahaleIndex'))
 
 
