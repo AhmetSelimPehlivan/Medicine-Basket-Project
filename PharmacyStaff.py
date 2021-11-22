@@ -23,14 +23,16 @@ def PharmacyActions():
             return redirect(url_for('PharmacyStaff.ProblemMudahaleIndex'))
         elif request.form.get("submit_PharmList"):
             return render_template('PharmacyStockList.html')
-        elif request.form.get("submit_Personel_CRUD"):
-            return redirect(url_for('PharmacyStaff.PharmacyStaffCrud'))
     return render_template('PharmacyStaff/PharmacyStaffMission.html')
 
 
 @PharmacyStaff.route('/PharmacyProblemList')
 def PharmacyProblemList():
     return render_template('PharmacyStaff/PharmacyProblemList.html')
+
+@PharmacyStaff.route('/PharmacyStockList')
+def PharmacyStockList():
+    return render_template('PharmacyStockList.html')
 
 
 @PharmacyStaff.route('/ProblemMudahaleIndex', methods=['POST', 'GET'])
@@ -197,96 +199,6 @@ def update_temp(tcno):
 
 @PharmacyStaff.route('/template/delete/<string:tcno>', methods=['POST', 'GET'])
 def delete_temp(tcno):
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-    cur.execute('DELETE FROM eczanecalisani WHERE tcno = {0}'.format(tcno))
-    conn.commit()
-    #flash('eczanecalisani Removed Successfully')
-    return redirect(url_for('PharmacyStaff.PharmacyStaffList'))
-
-######
-
-
-@PharmacyStaff.route('/PharmacyStockList')
-def PharmacyStockList():
-    return render_template('PharmacyStockList.html')
-
-
-@PharmacyStaff.route('/PharmacyStaffCrud')
-def PharmacyStaffCrud():
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    s = "SELECT * FROM eczanecalisani"
-    cur.execute(s)
-    list_users = cur.fetchall()
-    return render_template('PharmacyStaff/PharmacyStaffList.html', list_users=list_users)
-
-
-@PharmacyStaff.route('/add_Pharmacy_Staff', methods=['POST'])
-def add_Pharmacy_Staff():
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    if request.method == 'POST':
-        tcno = request.form['tcno']
-        isim = request.form['name']
-        email = request.form['email']
-        telefon = request.form['phone']
-        eczane_id = request.form['id']
-        parola = request.form['pswd']
-        cur.execute(
-            'SELECT DISTINCT eczane_id FROM eczanecalisani WHERE eczane_id=%s' % (eczane_id))
-        dataID = cur.fetchall()
-        cur.execute(
-            'SELECT tcno FROM eczanecalisani WHERE tcno=%s' % (tcno))
-        dataTc = cur.fetchall()
-        if len(dataID) == 0:
-           # flash('Girdiğiniz Eczane_Id mevcut değil')
-            render_template('PharmacyStaff/PharmacyStaffList.html')
-        if len(dataTc) > 0:
-          #  flash('Girdiğiniz TCNO zaten mevcut')
-            render_template('PharmacyStaff/PharmacyStaffList.html')
-        cur.execute("INSERT INTO eczanecalisani (tcno, isim, email, telefon, eczane_id, sifre) VALUES (%s,%s,%s,%s,%s,%s)",
-                    (tcno, isim, email, telefon, eczane_id, parola))
-        conn.commit()
-        return redirect(url_for('PharmacyStaff.PharmacyStaffCrud'))
-
-
-@PharmacyStaff.route('/edit/<tcno>', methods=['POST', 'GET'])
-def get_staff(tcno):
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute('SELECT * FROM eczanecalisani WHERE tcno = %s', (tcno))
-    data = cur.fetchall()
-    cur.close()
-    print(data[0])
-    return render_template('PharmacyStaff/PharmacyStaffEdit.html', staff=data[0])
-
-
-@PharmacyStaff.route('/update/<tcno>', methods=['POST'])
-def update_staff(tcno):
-    if request.method == 'POST':
-        tcno = request.form['tcno']
-        isim = request.form['name']
-        email = request.form['email']
-        telefon = request.form['phone']
-        eczane_id = request.form['id']
-        parola = request.form['pswd']
-
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute("""
-            UPDATE eczanecalisani
-            SET tcno = %s,
-                isim = %s,
-                email = %s,
-                telefon = %s,
-                eczane_id = %s,
-                parola = %s
-            WHERE tcno = %s
-        """, (tcno, isim, email, telefon, eczane_id, parola, tcno))
-        flash('eczanecalisani Updated Successfully')
-        conn.commit()
-        return redirect(url_for('PharmacyStaff.PharmacyStaffList'))
-
-
-@PharmacyStaff.route('/delete/<string:tcno>', methods=['POST', 'GET'])
-def delete_staff(tcno):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     cur.execute('DELETE FROM eczanecalisani WHERE tcno = {0}'.format(tcno))

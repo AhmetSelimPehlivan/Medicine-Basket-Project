@@ -5,4 +5,4 @@
 İlaç Sepeti, $python app.py
 ile çalıştırılır.
 
-Detaylı Proje Anlatımı:
+Detaylı Proje Anlatımı: https://drive.google.com/drive/folders/1zAE_InJx0VutD6f9eQumf6aCMl3MwbcP?usp=sharing
