@@ -16,9 +16,10 @@
             </div>
             <div class="main">
                 <div class="login">
-                    <form action="{{ url_for('LogIn_Pharm')}}" method="POST">
+                    <form action="{{ url_for('Login_Pharmacy_Staff')}}" method="POST">
                         <label for="chk" aria-hidden="true">Giriş Yap</label>
                         <input type="number" name="id" placeholder="Eczane ID" required="">
+                        <input type="number" name="tcno" placeholder="TC No " required="">
                         <input type="password" name="pswd" placeholder="Şifre" required="">
                     <button class="submitButton" type="submit" name="submit_log">Giriş Yap</button>
                 </div>

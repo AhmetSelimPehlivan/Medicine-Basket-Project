@@ -1,0 +1,30 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>İlaç Sepeti</title>
+	<link rel="stylesheet" href={{ url_for('static', filename='UI/CsPharmacistAdmin.css')}}>
+	{% block css %}
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container"> 
+        <div class="main">
+                <header>
+                    <h1 class="Mission__title"><span class="Mission__title_Span">Eczane Personel</span></h1>
+                </header>
+                <main class="Missions">
+                    <div class="Mission__profile">
+                    <form action="{{ url_for('PharmacyStaff.PharmacyActions')}}" method="POST">
+                        <Button class="Mission__ProblemList" type="submit" name="submit_problemList" value="submit_problemList">Aktif Problemleri</Button>
+                        <Button class="Mission__ProblemAdd" type="submit" name="submit_problemMudahale" value="submit_problemMudahale">Problem Müdahale</Button>
+                        <Button class="Mission__PharmList" type="submit" name="submit_PharmList" value="submit_PharmList">Eczane Envanter Listele</Button>
+                        <Button class="Mission__Persenoel_CRUD" type="submit" name="submit_Personel_CRUD" value="submit_Personel_CRUD">Personel CRUD</Button>
+                    </form> 
+                    </div>
+                </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -93,39 +93,22 @@ def LogIn_Pharm():
                 flash('Incorrect username/password')
         else:
             flash('Incorrect username/password')
-            
-@app.route('/add_WHP', methods=['POST'])
-def add_WHP():
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    if request.method == 'POST':
-        name = request.form['name']
-        tc = request.form['tc']
-        phone = request.form['phone']
-        email = request.form['email']
-        pswd = request.form['pswd']
-        if name == '' or tc == '' or phone == '' or email == '' or pswd == '':
-            return render_template('PharmacyWelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
-        else:
-            cur.execute("INSERT INTO depomudur (tcno, isim, telefon, adminparola, email) VALUES (%s,%s,%s,%s,%s)",
-                        (tc, name, phone, pswd, email))
-            conn.commit()
-            return render_template('PharmacyWHAdmin.html')
 
-
-@app.route('/Login_WHP_Admin', methods=['POST'])
-def Login_WHP():
+@app.route('/Login_Pharmacy_Staff', methods=['POST'])
+def Login_Pharmacy_Staff():
     if request.method == 'POST':
-        tc = request.form['tc']
+        tc = request.form['tcno']
+        id = request.form['id']
         password = request.form['pswd']
-       
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute("SELECT * from depomudur WHERE tcno = %s" % (tc))
+        cur.execute(
+            "SELECT * from eczanecalisani WHERE eczane_id = %s and tcno = %s" % (id, tc))
         account = cur.fetchone()
         print(account)
         if account:
-            password_rs = account['adminparola']
+            password_rs = account['sifre']
             if password_rs == password:
-                return render_template('PharmacyWHAdmin.html')
+                return render_template('PharmacyStaff/PharmacyStaffMission.html')
             else:
                 flash('Incorrect username/password')
         else:
