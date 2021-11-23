@@ -33,6 +33,9 @@
             <input type="number" class="form-control" name="id" placeholder="Eczane_ID">
           </div>
           <div class="form-group">
+            <input type="number" class="form-control" name="status" placeholder="Statü">
+          </div>
+          <div class="form-group">
             <input type="password" class="form-control" name="pswd" placeholder="Parola">
           </div>
           <button class="btn btn-primary btn-block">
@@ -50,6 +53,7 @@
             <td>Email</td>
             <td>Telefon</td>
             <td>Eczane_ID</td>
+            <td>Statü</td>
             <td>Parola</td>
             <td>İşlem</td>
           </tr>
@@ -62,10 +66,11 @@
             <td>{{row[2]}}</td>
             <td>{{row[3]}}</td>
             <td>{{row[4]}}</td>
+            <td>{{row[6]}}</td>
             <td>{{row[5]}}</td>
             <td width="150">
-              <a href="/edit/{{row[0]}}" class="btn btn-secondary btn-sm">Güncelle</a>
-              <a href="/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Sil</a>
+              <a href="/Pharmacy_Admin/edit/{{row[0]}}" class="btn btn-secondary btn-sm">Güncelle</a>
+              <a href="/Pharmacy_Admin/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Sil</a>
             </td>
           </tr>
           {% endfor %}

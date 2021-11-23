@@ -108,3 +108,12 @@ button:hover{
 #chk:checked ~ .signup label{
 	transform: scale(.6);
 }
+
+div .alert{
+	display: flex;
+    align-content: center;
+    justify-content: center;
+    color: #FFF;
+	font-size: 25px;
+    font-weight: bold;
+}

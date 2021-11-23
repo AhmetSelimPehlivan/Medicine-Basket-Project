@@ -1,0 +1,22 @@
+{% extends "Pharmacy/Problem/ProblemIndex.html" %}
+{% block body %}
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="card card-body">
+        <form action="/Problem/update/{{temp.problemid}}" method="POST">
+          <div class="form-group">
+            <input type="number" class="form-control" name="ProblemID" value="{{temp.problemid}}">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="BirimID" value="{{temp.birimid}}">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="tarih" value="{{temp.eslesmetarihi}}">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" name="Problem" value="Problem">Kayıt</button>
+        </form>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

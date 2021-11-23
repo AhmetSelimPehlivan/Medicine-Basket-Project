@@ -16,7 +16,7 @@
                 <h3 class="signHeader"></h3>
             {% endblock %}
         </div>
-        <div class="main">  	
+        <div class="main">
             <input type="checkbox" id="chk" value=1 aria-hidden="true">
                 <div class="signup">
                 {% block signinput %}
@@ -41,7 +41,17 @@
                         </form>
                     {% endblock %}
                 </div>
+            <input/>	
+        </div>    
+        {% with messages = get_flashed_messages()  %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <h6>{{ message }}</h6>
         </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %} 
     </div>
 </body>
 </html>

@@ -1,23 +1,51 @@
-CREATE TABLE IF NOT EXISTS public.depocalisani
+CREATE TABLE IF NOT EXISTS public.aktiviteler
 (
-    tcno integer NOT NULL,
-    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    maas integer NOT NULL,
-    telefon integer NOT NULL,
-    parola character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    depo_id integer NOT NULL,
-    CONSTRAINT depocalisani_pkey PRIMARY KEY (tcno),
-    CONSTRAINT depocalisani_depo_id_fkey FOREIGN KEY (depo_id)
-        REFERENCES public.ilacdeposu (depo_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    aktiviteid integer NOT NULL,
+    aktivitetanimi character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT aktiviteler_pkey PRIMARY KEY (aktivitetanimi)
+)
+CREATE TABLE IF NOT EXISTS public.alanlar
+(
+    alanid integer NOT NULL,
+    alanadi character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    alantipi character varying(250) COLLATE pg_catalog."default",
+    CONSTRAINT alanlar_pkey PRIMARY KEY (alanid)
+)
+CREATE TABLE IF NOT EXISTS public.belirtecler
+(
+    belirtecid integer NOT NULL,
+    belirtectanimi character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT belirtecler_pkey PRIMARY KEY (belirtecid)
+)
+CREATE TABLE IF NOT EXISTS public.calisanproblem
+(
+    problemid integer NOT NULL,
+    kullaniciadi integer NOT NULL,
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    mudaheleid integer NOT NULL,
+    aktiviteid integer NOT NULL,
+    "aktiviteaçıklama" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    tarihi date NOT NULL
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.depocalisani
-    OWNER to postgres;
-
+CREATE TABLE IF NOT EXISTS public.cikti
+(
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    ciktiid integer NOT NULL,
+    ciktiadi character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT cikti_pkey PRIMARY KEY (alanid, sinifid, ciktiid)
+)
+CREATE TABLE IF NOT EXISTS public.ciktidetay
+(
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    ciktiid integer NOT NULL,
+    belirtecid integer NOT NULL,
+    sira integer,
+    CONSTRAINT ciktidetay_pkey PRIMARY KEY (alanid, sinifid, ciktiid, belirtecid)
+)
 CREATE TABLE IF NOT EXISTS public.depoilacbulunur
 (
     depo_id integer NOT NULL,
@@ -32,32 +60,20 @@ CREATE TABLE IF NOT EXISTS public.depoilacbulunur
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.depoilacbulunur
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.depomudur
 (
     tcno integer NOT NULL,
     isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    maas integer NOT NULL,
     telefon integer NOT NULL,
     adminparola character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    depo_id integer NOT NULL,
+    depo_id integer,
+    email text COLLATE pg_catalog."default",
     CONSTRAINT depomudur_pkey PRIMARY KEY (tcno),
     CONSTRAINT depomudur_depo_id_fkey FOREIGN KEY (depo_id)
         REFERENCES public.ilacdeposu (depo_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.depomudur
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.depopersonel
 (
     tcno integer NOT NULL,
@@ -72,31 +88,16 @@ CREATE TABLE IF NOT EXISTS public.depopersonel
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.depopersonel
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public."eczacı"
+CREATE TABLE IF NOT EXISTS public.eczaci
 (
     tcno integer NOT NULL,
     isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
     telefon integer NOT NULL,
     adminparola character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    eczane_id integer NOT NULL,
-    CONSTRAINT "eczacı_pkey" PRIMARY KEY (tcno),
-    CONSTRAINT "eczacı_eczane_id_fkey" FOREIGN KEY (eczane_id)
-        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    email text COLLATE pg_catalog."default",
+    eczane_id integer,
+    CONSTRAINT "eczacı_pkey" PRIMARY KEY (tcno)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public."eczacı"
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.eczane
 (
     eczane_id integer NOT NULL,
@@ -105,14 +106,8 @@ CREATE TABLE IF NOT EXISTS public.eczane
     calismasaati time without time zone NOT NULL,
     sehir character varying(25) COLLATE pg_catalog."default" NOT NULL,
     parola character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    gelenilacid character varying(25) COLLATE pg_catalog."default",
     CONSTRAINT eczane_pkey PRIMARY KEY (eczane_id)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.eczane
-    OWNER to postgres;
 
 CREATE TABLE IF NOT EXISTS public.eczanecalisani
 (
@@ -121,31 +116,20 @@ CREATE TABLE IF NOT EXISTS public.eczanecalisani
     email character varying(50) COLLATE pg_catalog."default" NOT NULL,
     telefon integer NOT NULL,
     eczane_id integer NOT NULL,
-    parola character varying(25) COLLATE pg_catalog."default",
+    sifre character varying(25) COLLATE pg_catalog."default",
+    status integer,
     CONSTRAINT eczanecalisani_pkey PRIMARY KEY (tcno),
     CONSTRAINT eczanecalisani_eczane_id_fkey FOREIGN KEY (eczane_id)
         REFERENCES public.eczane (eczane_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.eczanecalisani
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.eczaneilacbulunur
 (
     eczane_id integer NOT NULL,
     ilackodu character varying(25) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT eczaneilacbulunur_pkey PRIMARY KEY (eczane_id, ilackodu)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.eczaneilacbulunur
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.eczaneilacsaglar
 (
     eczane_id integer NOT NULL,
@@ -167,54 +151,6 @@ CREATE TABLE IF NOT EXISTS public.eczaneilacsaglar
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.eczaneilacsaglar
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public.eczanekalfa
-(
-    tcno integer NOT NULL,
-    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    maas integer NOT NULL,
-    telefon integer NOT NULL,
-    parola character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    eczane_id integer NOT NULL,
-    CONSTRAINT eczanekalfa_pkey PRIMARY KEY (tcno),
-    CONSTRAINT eczanekalfa_eczane_id_fkey FOREIGN KEY (eczane_id)
-        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.eczanekalfa
-    OWNER to postgres;
-
-
-CREATE TABLE IF NOT EXISTS public.eczanestajyer
-(
-    tcno integer NOT NULL,
-    isim character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    maas integer,
-    telefon integer NOT NULL,
-    okul character varying(50) COLLATE pg_catalog."default",
-    parola character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    eczane_id integer NOT NULL,
-    CONSTRAINT eczanestajyer_pkey PRIMARY KEY (tcno),
-    CONSTRAINT eczanestajyer_eczane_id_fkey FOREIGN KEY (eczane_id)
-        REFERENCES public.eczane (eczane_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.eczanestajyer
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.enabizverileri
 (
     tcno integer NOT NULL,
@@ -223,12 +159,6 @@ CREATE TABLE IF NOT EXISTS public.enabizverileri
     CONSTRAINT enabizverileri_pkey PRIMARY KEY (receteno, tcno),
     CONSTRAINT enabizverileri_receteno_key UNIQUE (receteno)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.enabizverileri
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.ilac
 (
     ilackodu integer NOT NULL,
@@ -236,12 +166,6 @@ CREATE TABLE IF NOT EXISTS public.ilac
     fiyat integer NOT NULL,
     CONSTRAINT ilac_pkey PRIMARY KEY (ilackodu)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.ilac
-    OWNER to postgres;
-
 CREATE TABLE IF NOT EXISTS public.ilacdeposu
 (
     depo_id integer NOT NULL,
@@ -252,40 +176,30 @@ CREATE TABLE IF NOT EXISTS public.ilacdeposu
     CONSTRAINT ilacdeposu_pkey PRIMARY KEY (depo_id)
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.ilacdeposu
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public.kirmizireceteliilaclar
+CREATE TABLE IF NOT EXISTS public.ilaveciktidetay
 (
-    ilackodu integer NOT NULL,
-    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    fiyat integer NOT NULL,
-    CONSTRAINT kirmizireceteliilaclar_pkey PRIMARY KEY (ilackodu)
+    problemid integer NOT NULL,
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    mudahaleid integer NOT NULL,
+    belirtecid integer NOT NULL,
+    sira integer NOT NULL,
+    ekleyenkullaniciadi character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    eklenmetarihi date NOT NULL
 )
 
-TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.kirmizireceteliilaclar
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public.kremler
+CREATE TABLE IF NOT EXISTS public.ilavemudahaledetay
 (
-    ilackodu integer NOT NULL,
-    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    fiyat integer NOT NULL,
-    CONSTRAINT kremler_pkey PRIMARY KEY (ilackodu),
-    CONSTRAINT kremler_ilackodu_fkey FOREIGN KEY (ilackodu)
-        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    problemid integer NOT NULL,
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    mudahaleid integer NOT NULL,
+    aktiviteid integer NOT NULL,
+    sira integer NOT NULL,
+    ekleyenkullaniciadi character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    eklenmetarihi date NOT NULL
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.kremler
-    OWNER to postgres;
 
 CREATE TABLE IF NOT EXISTS public.kullanici
 (
@@ -298,11 +212,6 @@ CREATE TABLE IF NOT EXISTS public.kullanici
     email character varying(75) COLLATE pg_catalog."default",
     CONSTRAINT kullanici_pkey PRIMARY KEY (tcno)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.kullanici
-    OWNER to postgres;
 
 CREATE TABLE IF NOT EXISTS public.kurye
 (
@@ -318,59 +227,85 @@ CREATE TABLE IF NOT EXISTS public.kurye
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.kurye
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public.mavireceteliilaclar
+CREATE TABLE IF NOT EXISTS public.mudahale
 (
-    ilackodu integer NOT NULL,
-    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    fiyat integer NOT NULL,
-    CONSTRAINT mavireceteliilaclar_pkey PRIMARY KEY (ilackodu)
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    mudahaleid integer NOT NULL,
+    mudahaleadi character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT mudahale_pkey PRIMARY KEY (alanid, sinifid, mudahaleid)
+)
+CREATE TABLE IF NOT EXISTS public.mudahaledetay
+(
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    mudahaleid integer NOT NULL,
+    aktiviteid integer NOT NULL,
+    sira integer NOT NULL,
+    CONSTRAINT mudahaledetay_pkey PRIMARY KEY (alanid, sinifid, mudahaleid, aktiviteid)
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.mavireceteliilaclar
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public."ozelbakımurunleri"
+CREATE TABLE IF NOT EXISTS public.personelproblem
 (
-    ilackodu integer NOT NULL,
-    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    fiyat integer NOT NULL,
-    CONSTRAINT "ozelbakımurunleri_pkey" PRIMARY KEY (ilackodu),
-    CONSTRAINT "ozelbakımurunleri_ilackodu_fkey" FOREIGN KEY (ilackodu)
-        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    problemid integer NOT NULL,
+    kullaniciadi character varying(250) COLLATE pg_catalog."default" NOT NULL
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public."ozelbakımurunleri"
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public.receteliilaclar
+CREATE TABLE IF NOT EXISTS public.problem
 (
-    ilackodu integer NOT NULL,
-    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    fiyat integer NOT NULL,
-    tur character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT receteliilaclar_pkey PRIMARY KEY (ilackodu),
-    CONSTRAINT receteliilaclar_ilackodu_fkey FOREIGN KEY (ilackodu)
-        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    problemtipiid integer NOT NULL,
+    problemtanimi character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    problemitanimlayiciismi character varying(255) COLLATE pg_catalog."default",
+    problemitanimlayantcno character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    hedeflenenamactanimi text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT problem_pkey PRIMARY KEY (problemtipiid)
+)
+CREATE TABLE IF NOT EXISTS public.problembirim
+(
+    problemid integer NOT NULL,
+    birimid integer NOT NULL,
+    eslenmetarihi date,
+    CONSTRAINT problembirim_pkey PRIMARY KEY (problemid, birimid)
 )
 
-TABLESPACE pg_default;
+CREATE TABLE IF NOT EXISTS public.problemcikti
+(
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    ciktiid integer NOT NULL,
+    problemid integer NOT NULL
+)
 
-ALTER TABLE IF EXISTS public.receteliilaclar
-    OWNER to postgres;
+
+CREATE TABLE IF NOT EXISTS public.problemciktidegerlendirme
+(
+    problemid integer NOT NULL,
+    belirtecid integer NOT NULL,
+    skor integer NOT NULL,
+    skortarihi date NOT NULL
+)
+
+
+CREATE TABLE IF NOT EXISTS public.problemdurumdegerlendirme
+(
+    problemid integer NOT NULL,
+    yeniproblemid integer NOT NULL,
+    "yeniproblemtanımı" character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    yenihedef character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    oncekiproblemskoru integer NOT NULL,
+    tahminedilenproblemskoru integer NOT NULL,
+    degerlendirmetarihi date NOT NULL,
+    degerlendirenkullaniciadi character varying(250) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT problemdurumdegerlendirme_pkey PRIMARY KEY (problemid, yeniproblemid)
+)
+
+CREATE TABLE IF NOT EXISTS public.problemmudahale
+(
+    alanid integer NOT NULL,
+    sinifid integer NOT NULL,
+    mudahaleid integer NOT NULL,
+    problemid integer NOT NULL
+)
 
 CREATE TABLE IF NOT EXISTS public.sgkverileri
 (
@@ -380,37 +315,9 @@ CREATE TABLE IF NOT EXISTS public.sgkverileri
     CONSTRAINT sgkverileri_sgkno_key UNIQUE (sgkno)
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.sgkverileri
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public.vitaminler
+CREATE TABLE IF NOT EXISTS public.siniflar
 (
-    ilackodu integer NOT NULL,
-    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    fiyat integer NOT NULL,
-    CONSTRAINT vitaminler_pkey PRIMARY KEY (ilackodu),
-    CONSTRAINT vitaminler_ilackodu_fkey FOREIGN KEY (ilackodu)
-        REFERENCES public.ilac (ilackodu) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    sinifid integer NOT NULL,
+    sinifadi character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    alantipi character varying(250) COLLATE pg_catalog."default"
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.vitaminler
-    OWNER to postgres;
-
-CREATE TABLE IF NOT EXISTS public.yesilreceteliilaclar
-(
-    ilackodu integer NOT NULL,
-    ismi character varying(25) COLLATE pg_catalog."default" NOT NULL,
-    fiyat integer NOT NULL,
-    CONSTRAINT yesilreceteliilaclar_pkey PRIMARY KEY (ilackodu)
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.yesilreceteliilaclar
-    OWNER to postgres;

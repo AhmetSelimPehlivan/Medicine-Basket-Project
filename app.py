@@ -7,6 +7,7 @@ from PharmacyStaff import PharmacyStaff
 from User import User
 
 app = Flask(__name__)
+app.secret_key = "Aspehli1"
 app.register_blueprint(PharmacyMission, url_prefix="/Pharmacy_Admin")
 app.register_blueprint(PharmacyStaff, url_prefix="/PharmacyStaff")
 app.register_blueprint(User, url_prefix="/User")
@@ -69,10 +70,16 @@ def add_pharmacy():
         if name == '' or tc == '' or phone == '' or email == '' or pswd == '':
             return render_template('PharmacyWelcomePage.html', message='Lütfen gerekli alanı doldurunuz')
         else:
-            cur.execute("INSERT INTO eczaci (tcNo, isim, telefon, adminparola, email) VALUES (%s,%s,%s,%s,%s)",
-                        (tc, name, phone, pswd, email))
-            conn.commit()
+            cur.execute('SELECT tcno FROM eczaci WHERE tcno=%s' % (tc))
+            dataTc = cur.fetchall()
+            if len(dataTc) > 0:
+                flash('Girilen Tc Numarası Zaten Mevcut')
+            else:             
+                cur.execute("INSERT INTO eczaci (tcNo, isim, telefon, adminparola, email) VALUES (%s,%s,%s,%s,%s)",
+                            (tc, name, phone, pswd, email))
+                conn.commit()
             return render_template('PharmacistAdmin.html')
+    return redirect(url_for('PharmacyWelcomePage'))
 
 
 @app.route('/LogIn_Pharm_Admin', methods=['POST', 'GET'])
@@ -90,19 +97,21 @@ def LogIn_Pharm():
             if password_rs == password:
                 return render_template('PharmacistAdmin.html')
             else:
-                flash('Incorrect username/password')
+                flash('Yanlış TcNo veya kullanıcı adı')
         else:
-            flash('Incorrect username/password')
+            flash('Yanlış TcNo veya kullanıcı adı')
+        return redirect(url_for('PharmacyWelcomePage'))
 
 @app.route('/Login_Pharmacy_Staff', methods=['POST'])
 def Login_Pharmacy_Staff():
     if request.method == 'POST':
         tc = request.form['tcno']
         id = request.form['id']
+        status = request.form['status']
         password = request.form['pswd']
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute(
-            "SELECT * from eczanecalisani WHERE eczane_id = %s and tcno = %s" % (id, tc))
+            "SELECT * from eczanecalisani WHERE eczane_id = %s and tcno = %s and status=%s" % (id, tc ,status))
         account = cur.fetchone()
         print(account)
         if account:
@@ -110,9 +119,10 @@ def Login_Pharmacy_Staff():
             if password_rs == password:
                 return render_template('PharmacyStaff/PharmacyStaffMission.html')
             else:
-                flash('Incorrect username/password')
+                flash('Yanlış TcNo veya kullanıcı adı')
         else:
-            flash('Incorrect username/password')
+            flash('Yanlış TcNo veya kullanıcı adı')
+    return redirect(url_for('PharmacistStaff'))
 
 
 @app.route('/add_User', methods=['POST'])
@@ -127,10 +137,17 @@ def add_User():
         if name == '' or tc == '' or phone == '' or email == '' or pswd == '':
             return render_template('PharmacySignIn.html', message='Lütfen gerekli alanı doldurunuz')
         else:
-            cur.execute("INSERT INTO kullanici (tcNo, isim, telefon, email ,sifre) VALUES (%s,%s,%s,%s,%s)",
-                        (tc, name, phone, email, pswd))
-            conn.commit()
-            return render_template('UserMainPage.html')
+            cur.execute(
+                'SELECT DISTINCT * FROM kullanici WHERE tcno=%s' % (tc))
+            user = cur.fetchall()
+            if len(user) > 0:
+                flash('%s TC numaralı kullanıcı zaten mevcut'% (tc))
+            else:
+                cur.execute("INSERT INTO kullanici (tcNo, isim, telefon, email ,sifre) VALUES (%s,%s,%s,%s,%s)",
+                            (tc, name, phone, email, pswd))
+                conn.commit()
+                return render_template('UserMainPage.html')
+    return redirect(url_for('WelcomePage'))
 
 
 @app.route('/Login_User', methods=['POST'])
@@ -148,10 +165,10 @@ def Login_User():
             if password_rs == password:
                 return render_template('UserMainPage.html')
             else:
-                flash('Incorrect username/password')
+                flash('Yanlış TcNo veya kullanıcı adı')
         else:
-            flash('Incorrect username/password')
-
+            flash('Yanlış TcNo veya kullanıcı adı')
+    return redirect(url_for('WelcomePage'))
 
 if __name__ == '__main__':
     app.debug =True

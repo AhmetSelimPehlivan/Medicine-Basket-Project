@@ -79,3 +79,11 @@ button:hover{
   color: #fff;
 	background: #2ECC71;
 }
+div .alert{
+	display: flex;
+    align-content: center;
+    justify-content: center;
+    color: #641E16;
+	font-size: 25px;
+    font-weight: bold;
+}

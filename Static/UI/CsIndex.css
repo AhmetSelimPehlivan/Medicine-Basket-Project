@@ -14,8 +14,8 @@ body{
     justify-content: center;
 }
 .main button{
-	width: 350px;
-	height: 230px;
+	width: 250px;
+	height: 150px;
 	overflow: hidden;
 	border: none;
 	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
@@ -26,8 +26,8 @@ body{
 	display: flex;
 	justify-content: center;
     align-items: center;
-	margin: 50px;
-	font-size: 1.8em;
+	margin: 25px;
+	font-size: 1.5em;
 	font-weight: bold;
 	cursor: pointer;
 	transition: .5s ease-in-out;

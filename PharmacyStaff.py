@@ -55,6 +55,7 @@ def ProblemMudahaleIndex():
     return render_template('PharmacyStaff/Problem/ProblemList.html')
 
 
+
 @PharmacyStaff.route('/ProblemMudahale')
 def ProblemMudahale():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -74,7 +75,7 @@ def ProblemCikti():
 @PharmacyStaff.route('/IlaveMudahaleDetay')
 def IlaveMudahaleDetay():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM IlaveMudahaleDetay")
+    cur.execute("SELECT * FROM ProblemMudahale")
     list_users = cur.fetchall()
     return render_template('PharmacyStaff/Problem/IlaveMudahaleDetay/IlaveMudahaleDetayList.html', list_users=list_users)
 
@@ -82,7 +83,7 @@ def IlaveMudahaleDetay():
 @PharmacyStaff.route('/IlaveCiktiDetay')
 def IlaveCiktiDetay():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM IlaveCiktiDetay")
+    cur.execute("SELECT * FROM problemcikti")
     list_users = cur.fetchall()
     return render_template('PharmacyStaff/Problem/IlaveCiktiDetay/IlaveCiktiDetayList.html', list_users=list_users)
 
@@ -97,7 +98,8 @@ def PersonelProblem():
 @PharmacyStaff.route('/ProblemCiktiDegerlendirme')
 def ProblemCiktiDegerlendirme():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM ProblemCiktiDegerlendirme")
+    cur.execute(
+        "SELECT P.problemid, B.belirtecID FROM problembirim AS P, belirtecler AS B")
     list_users = cur.fetchall()
     return render_template('PharmacyStaff/Problem/ProblemCiktiDegerlendirme/ProblemCiktiDegerlendirmeList.html', list_users=list_users)
 
@@ -156,6 +158,16 @@ def add_ProblemTemplate():
                     'PharmacyStaff/Problem/PersonelProblem/PersonelProblemList.html')
             cur.execute("INSERT INTO PersonelProblem (ProblemID, KullaniciAdi) VALUES (%s,%s)",
                         (ProblemID, tcno))
+            conn.commit()
+            return redirect(url_for('PharmacyStaff.PersonelProblem'))
+        elif request.form.get("add_skor"):
+            ProblemID = request.form['problemid']
+            tcno = request.form['belirtecid']
+            skor = request.form['skor']
+            skortarihi = request.form['skortarihi']
+            
+            cur.execute("INSERT INTO problemciktidegerlendirme (ProblemID, tcno, skor, skortarihi) VALUES (%s,%s,%s,%s)",
+                        (ProblemID, tcno, skor, skortarihi))
             conn.commit()
             return redirect(url_for('PharmacyStaff.PersonelProblem'))
     return redirect(url_for('PharmacyStaff.ProblemMudahaleIndex'))

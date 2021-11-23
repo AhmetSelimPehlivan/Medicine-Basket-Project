@@ -51,11 +51,9 @@
             <td>{{row[1]}}</td>
             <td>{{row[2]}}</td>
             <td>{{row[3]}}</td>
-            <td>{{row[4]}}</td>
-            <td>{{row[5]}}</td>
             <td width="150">
-              <a href="/edit/{{row[0]}}" class="btn btn-secondary btn-sm">Güncelle</a>
-              <a href="/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Sil</a>
+              <a href="/Pharmacy_Admin/mudahale/edit/{{row[0]}}/{{row[1]}}/{{row[2]}}" class="btn btn-secondary btn-sm">Güncelle</a>
+              <a href="/Pharmacy_Admin/mudahale/delete/{{row[0]}}/{{row[1]}}/{{row[2]}}" class="btn btn-danger btn-delete btn-sm">Sil</a>
             </td>
           </tr>
           {% endfor %}

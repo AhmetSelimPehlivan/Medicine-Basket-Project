@@ -3,28 +3,20 @@
   <div class="row">
     <div class="col-md-4 offset-md-4">
       <div class="card card-body">
-        <form action="/template/update/{{temp.id}}" method="POST">
+        <form action="/Pharmacy_Admin/Mudahale/update/{{temp.alanid}}/{{temp.sinifid}}/{{temp.mudahaleid}}" method="POST">
           <div class="form-group">
-            <input type="text" class="form-control" name="tcno" value="{{temp}}">
+            <input type="number" class="form-control" name="AlanID" value="{{temp.alanid}}">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="name" value="{{temp}}">
+            <input type="number" class="form-control" name="SinifID" value="{{temp.sinifid}}">
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" name="email" value="{{temp}}">
+            <input type="number" class="form-control" name="MudaheleID" value="{{temp.mudahaleid}}">
           </div>
           <div class="form-group">
-            <input type="phone" class="form-control" name="phone" value="{{temp}}">
+            <input type="text" class="form-control" name="MudahaleAdi" value="{{temp.mudahaleadi}}">
           </div>
-          <div class="form-group">
-            <input type="number" class="form-control" name="id" value="{{temp}}">
-          </div>
-          <div class="form-group">
-            <input type="password" class="form-control" name="pswd" value="{{temp}}">
-          </div>
-          <button class="btn btn-primary btn-block">
-            Kayıt 
-          </button>
+          <button type="submit" class="btn btn-primary btn-block" name="Mudahale" value="Mudahale">Kayıt</button>
         </form>
       </div>
     </div>
