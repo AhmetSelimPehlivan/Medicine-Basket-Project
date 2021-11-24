@@ -52,8 +52,9 @@ button{
 button:hover{
 	background: linear-gradient(to right, #5b7cfa, #3659db);
 }
-.PharmList {
-  width: 500px;
+.missonList {
+  max-width: 490px;
+  width: 100%;
   border-radius: 12px; 
   box-shadow: 0 0 40px -10px rgba(0, 0, 0, .4);
 }
@@ -67,7 +68,7 @@ button:hover{
     border-radius: 12px 12px 0 0;
     overflow: hidden;
   }
-    .Pharm__title {
+    .Mission_title {
       position: absolute;
       z-index: 2;
       top: 50%;
@@ -77,14 +78,14 @@ button:hover{
       margin: 0;
     }
       
-      .Pharm__title--top {
+      .Mission_title--top {
         display: block;
         font-size: 24px;
         font-weight: 700;
         letter-spacing: 1px;
       }
       
-      .Pharm__title--bottom {
+      .Mission_title--bottom {
         display: block;
         font-size: 13px;
         font-weight: 500;
@@ -103,7 +104,7 @@ button:hover{
       transform: translate(-50%, -50%);
   }
   
-  .Pharm__profiles {
+  .misson__profiles {
     background-color: #fff;
     border-radius: 0 0 12px 12px;
     padding: 15px 15px 20px;
@@ -111,7 +112,7 @@ button:hover{
     row-gap: 8px;
   }
   
-  .Pharm__profile {
+  .misson__profile {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     align-items: center;
@@ -124,15 +125,12 @@ button:hover{
     background-color: #fff;
     }
 
-    .Pharm__profile:hover {
-      box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
+    .misson__profiles:hover {
       transform: scale(1.2);
-    }
-    .Pharm__profiles:hover {
       box-shadow: 0 9px 47px 11px rgba(51, 51, 51, 0.18);
     }
   
-  .Pharm__name {
+  .misson__name {
     color: #979cb0;
     font-weight: 600;
     font-size: 20px;
@@ -140,14 +138,14 @@ button:hover{
     margin-left: 12px;
   }
   
-  .Pharm__value {
+  .misson__value {
     color: #35d8ac;
     font-weight: 700;
     font-size: 34px;
     text-align: right;
   }
     
-   .Pharm__profiles > span {
+   .misson__profiles > span {
       opacity: .8;
       font-weight: 600;
       font-size: 13px;

@@ -21,22 +21,26 @@
                 <header>
                     <h1 class="Recipe__title">Reçete</h1>
                 </header>
-                <form method="POST">
-                    <label for="recipe" aria-hidden="true">Reçete Sorgula</label>
-                    <input type="rcp" name="number" placeholder="Reçete Numarası" required="">
-                    <input type="sgk" name="number" placeholder="SGK Numarası" required="">
+                <form action="/getPharmacy/{{user.tcno}}" method="POST">
+                    <label for="recipe" aria-hidden="true"></label>
+                    <input type="rcp" name="recipe" placeholder="Reçete Numarası" required="">
                     <button class="submitButton" type="submit" name="">Reçete Sorgula</button>
                 </form>
             </div>
             <article class="PharmList">
                 <header>
-                    <h1 class="Pharm__title"><span class="Pharm__title--top">1111 Numaralı</span><span class="Pharm__title--bottom">Reçete</span></h1>
+                    <h1 class="Pharm__title"><span class="Pharm__title--top">{{user.receteno}} Numaralı</span><span class="Pharm__title--bottom">Reçete</span></h1>
                 </header>
                 <main class="Pharm__profiles">
-                    <article class="Pharm__profile">-
-                    <span class="Pharm__name">Mark Zuckerberg</span>
-                    <span class="Pharm__value">35.7<span>B</span></span>
-                    </article>
+                <form action="/getRecipe/{{user.tcno}}/{{user.receteno}}" method="POST">
+                    {% for row in temp %}
+                        <article class="Pharm__profile">
+                        <span class="Pharm__name">{{row[0]}}</span>
+                        <span class="Pharm__value">{{row[1]}}<span>TL</span></span>
+                        </article>
+                    {% endfor %}
+                    <button type="submit" name="submitProblem">Sipariş Ver</button>
+                </form>
                 </main>
             </article>
         </div>

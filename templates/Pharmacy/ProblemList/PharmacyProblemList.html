@@ -1,0 +1,73 @@
+{% extends "Pharmacy/ProblemList/PharmacyProblemListIndex.html" %}
+{% block body %}
+ <div class="row"><h3>Problem Ekle</h3></div>
+  <div class="row">
+      <div class="col-md-4">
+      {% with messages = get_flashed_messages()  %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="card card-body">
+        <form action="{{url_for('PharmacyStaff.add_ProblemTemplate')}}" method="POST">
+          <div class="form-group">
+            <input type="number" class="form-control" name="problemtipiid" placeholder="Problem Tipi ID">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="problemtanimi" placeholder="Problem Tanımı">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="problemtanimlayiciismi" placeholder="Problem Tanımlayıcı İsmi">
+          </div>
+          <div class="form-group">
+            <input type="number" class="form-control" name="problemtanimlayicitcno" placeholder="Problem Tanımlaryıcı Tc No">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="hedeflenenamactanimi" placeholder="Hedeflenen Amaç Tanımı">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" name="add_problem" value="add_problem">Ekle</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+          <tr>
+            <td>Problem Tipi ID</td>
+            <td>Problem Tanımı</td>
+            <td>Problem Tanımlayıcı İsmi</td>
+            <td>Problem Tanımlaryıcı Tc No</td>
+            <td>Hedeflenen Amaç Tanımı</td>
+            <td>İşlem</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in temp %}
+          <tr>
+          <form action="{{url_for('PharmacyStaff.add_ProblemTemplate')}}" method="POST">
+            <td>{{row[0]}}</td>
+            <td>{{row[1]}}</td>
+            <td>{{row[2]}}</td>
+            <td>{{row[3]}}</td>
+            <td>{{row[4]}}</td>
+            <td style="width: 150px;">
+              <Button type="submit" class="btn btn-secondary btn-sm">Ekle</Button>
+              <a href="/Pharmacy_Admin/mudahaledetay/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Sil</a>
+            </td>
+          </form>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  
+{% endblock %}

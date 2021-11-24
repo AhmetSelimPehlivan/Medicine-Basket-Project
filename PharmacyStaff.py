@@ -18,21 +18,57 @@ conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER,
 def PharmacyActions():
     if request.method == "POST":
         if request.form.get("submit_problemList"):
-            return render_template('PharmacyProblemList.html')
+            return redirect(url_for('PharmacyStaff.PharmacyProblemList'))
         elif request.form.get("submit_problemMudahale"):
             return redirect(url_for('PharmacyStaff.ProblemMudahaleIndex'))
         elif request.form.get("submit_PharmList"):
-            return render_template('PharmacyStockList.html')
+            return redirect(url_for('PharmacyStaff.PharmacyStockList'))
     return render_template('PharmacyStaff/PharmacyStaffMission.html')
+
+
+@PharmacyStaff.route('/EmployeeActions', methods=['POST', 'GET'])
+def EmployeeActions():
+    if request.method == "POST":
+        if request.form.get("ProblemList"):
+            return redirect(url_for('PharmacyStaff.problemlist'))
+        elif request.form.get("ilacEkle"):
+            return redirect(url_for('PharmacyStaff.addilac'))
+    return render_template('PharmacyStaff/PharmacyStaffMission.html')
+
+
+@PharmacyStaff.route('/problemlist')
+def problemlist():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute("SELECT * FROM problem")
+    list_users = cur.fetchall()
+    return render_template('PharmacyEmployee/employeelist.html', temp=list_users)
+
+
+@PharmacyStaff.route('/addilac')
+def addilac():
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    eczane_id = request.form['eczane_id']
+    ilacadi = request.form['ilacadi']
+    cur.execute("INSERT INTO eczaneilacbulunur (eczane_id, ilacadi) VALUES (%s,%s)",
+                (eczane_id, ilacadi))
+    conn.commit()
+    list_users = cur.fetchall()
+    return render_template('PharmacyEmployee/ilaclist.html', temp=list_users)
 
 
 @PharmacyStaff.route('/PharmacyProblemList')
 def PharmacyProblemList():
-    return render_template('PharmacyStaff/PharmacyProblemList.html')
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute("SELECT * FROM problem")
+    list_users = cur.fetchall()
+    return render_template('Pharmacy/ProblemList/PharmacyProblemList.html', temp=list_users)
 
 @PharmacyStaff.route('/PharmacyStockList')
 def PharmacyStockList():
-    return render_template('PharmacyStockList.html')
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute("SELECT * FROM eczaneilacbulunur")
+    list_users = cur.fetchall()
+    return render_template('Pharmacy/EnvanterList/PharmacyStockList.html', temp=list_users)
 
 
 @PharmacyStaff.route('/ProblemMudahaleIndex', methods=['POST', 'GET'])
@@ -170,6 +206,16 @@ def add_ProblemTemplate():
                         (ProblemID, tcno, skor, skortarihi))
             conn.commit()
             return redirect(url_for('PharmacyStaff.PersonelProblem'))
+        elif request.form.get("add_problem"):
+            problemtipiid = request.form['problemtipiid']
+            problemtanimi = request.form['problemtanimi']
+            problemtanimlayiciismi = request.form['problemtanimlayiciismi']
+            problemtanimlayicitcno = request.form['problemtanimlayicitcno']
+            hedeflenenamactanimi = request.form['hedeflenenamactanimi']
+            cur.execute('INSERT INTO problem (problemtipiid,problemtanimi,problemitanimlayiciismi,problemitanimlayantcno,hedeflenenamactanimi) VALUES (%s,\'%s\',\'%s\',%s,\'%s\')' % (
+                problemtipiid, problemtanimi, problemtanimlayiciismi, problemtanimlayicitcno, hedeflenenamactanimi))
+            conn.commit()
+            return redirect(url_for('PharmacyStaff.PharmacyProblemList'))
     return redirect(url_for('PharmacyStaff.ProblemMudahaleIndex'))
 
 

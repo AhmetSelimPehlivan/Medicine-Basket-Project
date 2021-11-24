@@ -1,3 +1,4 @@
+from os import stat
 from flask import Flask, render_template, request, url_for, session, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2.extras
@@ -58,6 +59,32 @@ def PharmacistStaff():
     return render_template('PharmacistStaff.html')
 
 
+@app.route('/getPharmacy/<tcno>', methods=['POST', 'GET'])
+def getPharmacy(tcno):
+    recipe = request.form['recipe']
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)            
+    cur.execute(
+        'SELECT * FROM enabizverileri WHERE tcno=%s and receteno=%s' % (tcno, recipe))
+    data = cur.fetchall()
+    cur.execute(
+    'SELECT i.ilacadi,i.fiyat FROM ilacbilgi as i, enabizverileri as e WHERE e.ilacadi=i.ilacadi and e.tcno=%s and e.receteno=%s' % (tcno, recipe))
+    dataPharm = cur.fetchall()
+    if len(data) > 0:
+        print(dataPharm)
+        return render_template('UserMainPage.html', user=data[0], temp=dataPharm)
+    return render_template('UserMainPage.html')
+
+
+@app.route('/getRecipe/<tcno>/<receteNo>', methods=['POST', 'GET'])
+def getRecipe(tcno, receteNo):
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur.execute('SELECT * FROM kullanici WHERE tcno=%s' % (tcno))
+    dataUser = cur.fetchone()
+    cur.execute(
+        'INSERT INTO problem (problemtipiid,problemtanimi,problemitanimlayiciismi,problemitanimlayantcno,hedeflenenamactanimi) VALUES (1,\'İlaç Sipariş\',%s,\'%s\',\'İlaçlar Kullanıcıya Ulaşacaktırılacak\')' % (dataUser[0], dataUser[1]))
+    data = [tcno, receteNo]
+    return render_template('UserMainPage.html', user=data)
+
 @app.route('/Add_Pharm', methods=['POST', 'GET'])
 def add_pharmacy():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -110,14 +137,19 @@ def Login_Pharmacy_Staff():
         status = request.form['status']
         password = request.form['pswd']
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(
-            "SELECT * from eczanecalisani WHERE eczane_id = %s and tcno = %s and status=%s" % (id, tc ,status))
+        cur.execute("SELECT * from eczanecalisani WHERE eczane_id = %s and tcno = %s and status=%s" % (id, tc ,status))
         account = cur.fetchone()
         print(account)
         if account:
             password_rs = account['sifre']
             if password_rs == password:
-                return render_template('PharmacyStaff/PharmacyStaffMission.html')
+                if status == '1':
+                    return render_template('PharmacyStaff/PharmacyStaffMission.html')
+                else:
+                    cur.execute(
+                        "SELECT PP.problemid FROM PersonelProblem AS PP WHERE PP.kullaniciadi='%s'" % (tc))
+                    Problem = cur.fetchall()
+                    return render_template('PharmacyEmployee/employeelist.html')
             else:
                 flash('Yanlış TcNo veya kullanıcı adı')
         else:
@@ -139,15 +171,18 @@ def add_User():
         else:
             cur.execute(
                 'SELECT DISTINCT * FROM kullanici WHERE tcno=%s' % (tc))
-            user = cur.fetchall()
-            if len(user) > 0:
+            account = cur.fetchall()
+            if len(account) > 0:
                 flash('%s TC numaralı kullanıcı zaten mevcut'% (tc))
             else:
                 cur.execute("INSERT INTO kullanici (tcNo, isim, telefon, email ,sifre) VALUES (%s,%s,%s,%s,%s)",
                             (tc, name, phone, email, pswd))
                 conn.commit()
-                return render_template('UserMainPage.html')
-    return redirect(url_for('WelcomePage'))
+                cur.execute('SELECT * FROM enabizverileri WHERE tcno=%s' % (tc))
+                data = cur.fetchall()
+                print(data[0])
+                return render_template('UserMainPage.html', user=data[0])
+        return redirect(url_for('WelcomePage'))
 
 
 @app.route('/Login_User', methods=['POST'])
@@ -163,7 +198,11 @@ def Login_User():
         if account:
             password_rs = account['sifre']
             if password_rs == password:
-                return render_template('UserMainPage.html')
+                cur.execute(
+                    'SELECT * FROM enabizverileri WHERE tcno=%s' % (tc))
+                data = cur.fetchall()
+                print(data[0])
+                return render_template('UserMainPage.html', user=data[0])
             else:
                 flash('Yanlış TcNo veya kullanıcı adı')
         else:
