@@ -18,7 +18,7 @@
       <div class="card card-body">
         <form action="{{url_for('PharmacyStaff.addilac')}}" method="POST">
           <div class="form-group">
-            <input type="number" class="form-control" name="eczane_id" value="eczane_id" placeholder="Eczane ID">
+            <input type="number" class="form-control" name="eczaneid" value="eczaneid" placeholder="Eczane ID">
           </div>
           <div class="form-group">
             <input type="text" class="form-control" name="ilacadi" value="ilacadi" placeholder="İlaç Adı">
@@ -39,7 +39,7 @@
         <tbody>
           {% for row in temp %}
           <tr>
-          <form action="{{url_for('PharmacyStaff.addilac')}}" method="POST">
+          <form action="{{url_for('PharmacyStaff.updateilac')}}" method="POST">
             <td>{{row[0]}}</td>
             <td>{{row[1]}}</td>
             <td style="width: 150px;">

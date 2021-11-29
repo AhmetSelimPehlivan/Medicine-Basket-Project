@@ -136,6 +136,7 @@ def Login_Pharmacy_Staff():
         id = request.form['id']
         status = request.form['status']
         password = request.form['pswd']
+        print(tc, id, status)
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute("SELECT * from eczanecalisani WHERE eczane_id = %s and tcno = %s and status=%s" % (id, tc ,status))
         account = cur.fetchone()
@@ -180,8 +181,7 @@ def add_User():
                 conn.commit()
                 cur.execute('SELECT * FROM enabizverileri WHERE tcno=%s' % (tc))
                 data = cur.fetchall()
-                print(data[0])
-                return render_template('UserMainPage.html', user=data[0])
+                return render_template('UserMainPage.html', user=data)
         return redirect(url_for('WelcomePage'))
 
 
@@ -201,7 +201,6 @@ def Login_User():
                 cur.execute(
                     'SELECT * FROM enabizverileri WHERE tcno=%s' % (tc))
                 data = cur.fetchall()
-                print(data[0])
                 return render_template('UserMainPage.html', user=data[0])
             else:
                 flash('Yanlış TcNo veya kullanıcı adı')

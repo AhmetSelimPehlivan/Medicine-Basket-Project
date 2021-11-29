@@ -36,7 +36,7 @@ def EmployeeActions():
     return render_template('PharmacyStaff/PharmacyStaffMission.html')
 
 
-@PharmacyStaff.route('/problemlist')
+@PharmacyStaff.route('/problemlist', methods=['POST', 'GET'])
 def problemlist():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cur.execute("SELECT * FROM problem")
@@ -44,10 +44,10 @@ def problemlist():
     return render_template('PharmacyEmployee/employeelist.html', temp=list_users)
 
 
-@PharmacyStaff.route('/addilac')
+@PharmacyStaff.route('/addilac', methods=['POST', 'GET'])
 def addilac():
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    eczane_id = request.form['eczane_id']
+    eczane_id = request.form['eczaneid']
     ilacadi = request.form['ilacadi']
     cur.execute("INSERT INTO eczaneilacbulunur (eczane_id, ilacadi) VALUES (%s,%s)",
                 (eczane_id, ilacadi))
